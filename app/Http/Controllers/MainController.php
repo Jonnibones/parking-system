@@ -8,9 +8,11 @@ class MainController extends Controller
 {
     public function index()
     {
-
         if(session()->has('user')){
-            return view('master');
+            $contents = [
+                'view' => 'main',
+            ];
+            return view('master', compact('contents'));
         }else{
             return back()->withErrors(['message' => 'Acesso restrito!']);
         }

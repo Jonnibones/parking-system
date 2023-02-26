@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\ServicesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +24,10 @@ Route::get('/admin', [AdminController::class, 'index']);
 
 Route::post('/auth', [AdminController::class, 'auth']);
 
-Route::get('/main', [MainController::class, 'index']);
+Route::get('/main', [MainController::class, 'index'])->name('main');
 
 Route::post('/logout', [AdminController::class, 'logout'])->name('logout');
+
+Route::get('/separated_service', [ServicesController::class, 'separated_service'])->name('separated_service');
+
+Route::post('/AddSeparatedService', [ServicesController::class, 'AddSeparatedService'])->name('AddSeparatedService');

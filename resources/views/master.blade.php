@@ -6,6 +6,6 @@
 
 @include('layouts/sidebar')
 
-@include('layouts/main')
+@include('layouts/'.$contents['view'])
 
 @include('layouts/footer')
