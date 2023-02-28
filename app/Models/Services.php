@@ -11,6 +11,7 @@ class Services extends Model
 
     protected $fillable = [
         'id_customer',
+        'id_parking_space',
         'driver_name',
         'driving_license_number',
         'license_plate_number',

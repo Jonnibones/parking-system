@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AdminLTE 3 | Dashboard</title>
 
+    <!-- jQuery -->
+    <script 
+        src="<?php echo $base_url;?>vendor/almasaeed2010/adminlte/plugins/jquery/jquery.min.js"></script>
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -33,6 +36,9 @@
     <!-- summernote -->
     <link rel="stylesheet"
         href="<?php echo $base_url; ?>/vendor/almasaeed2010/adminlte/plugins/summernote/summernote-bs4.min.css">
+    <!-- Datatables -->
+    <link rel="stylesheet" 
+        href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
