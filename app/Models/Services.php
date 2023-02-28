@@ -10,6 +10,7 @@ class Services extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id_user',
         'id_customer',
         'id_parking_space',
         'driver_name',
@@ -21,6 +22,7 @@ class Services extends Model
         'service_type',
         'entry_time',
         'departure_time',
+        'status',
         'created_at',
         'uploaded_at',
     ];
