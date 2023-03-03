@@ -130,10 +130,10 @@
                   <td>{{ $service->vehicle_model }}</td>
                   <td>{{ $service->vehicle_color }}</td>
                   <td>{{ $service->service_type }}</td>
-                  <td name="entry_times">{{ date('d/m/Y H:s:i', strtotime($service->entry_time)) }}</td>
+                  <td name="entry_times">{{ date('d/m/Y H:i:s', strtotime($service->entry_time)) }}</td>
                   <td name="departure_times">
                     @if($service->departure_time)
-                      {{ $service->departure_time }}
+                      {{ date('d/m/Y H:i:s', strtotime($service->departure_time)) }}
                     @else
                       --:--
                     @endif

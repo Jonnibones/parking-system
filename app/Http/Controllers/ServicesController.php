@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Services;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 
 class ServicesController extends Controller
@@ -59,6 +61,8 @@ class ServicesController extends Controller
         $sanitizedData = filter_var_array($validatedData, FILTER_SANITIZE_STRING);
     
         $sanitizedData['service_type'] = 'avulso';
+        $date = new DateTime();
+        $sanitizedData['entry_time'] = $date->format('Y-m-d H:i:s');
         $sanitizedData['status'] = 'Em andamento';
     
         Services::create($sanitizedData);
@@ -73,10 +77,37 @@ class ServicesController extends Controller
         ]);
     
         $service = DB::table('services')
-        ->where('id', $validatedData['id_service'])->get();
+        ->where('id', $validatedData['id_service'])->get()->first();
 
+        /*
+        $currentDate = new DateTime();
+        $serviceDate = new DateTime($service->entry_time);
+        $diff = $currentDate->diff($serviceDate);
+        $hours = floatval($diff->h + ($diff->days * 24));
+        */
+
+        $data = Carbon::parse($service->entry_time);
+        // pega a data atual
+        $dataAtual = Carbon::now();
+
+        // calcula a diferença em minutos
+        $diferencaEmMinutos = $data->diffInMinutes($dataAtual);// pega a data atual
+        $dataAtual = Carbon::now();
+
+        // calcula a diferença em minutos
+        $diferencaEmMinutos = $data->diffInMinutes($dataAtual);
+
+        /*
+        if($service->service_type == 'avulso'){
+            if($hours <= 1){
+                $service_value = 2.00 * 1;
+            }else
+        }else{
+
+        }
+        */
         
 
-        return response()->json($service);
+        return response()->json($diferencaEmMinutos);
     }
 }
