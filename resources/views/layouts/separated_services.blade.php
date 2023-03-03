@@ -1,4 +1,7 @@
 
+  <!-- SET CSRF TOKEN  -->
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+
   <!-- Datatables initialisation -->
   <script>
     $(document).ready( function () {
@@ -96,6 +99,7 @@
           <table  class="table table-striped" id="table_sep_services">
             <thead>
               <tr>
+                <th>ID serviço</th>
                 <th>Vaga</th>
                 <th>Cliente</th>
                 <th>Nome motorista</th>
@@ -107,6 +111,7 @@
                 <th>Tipo de serviço</th>
                 <th>Data/Horário de entrada</th>
                 <th>Data/Horário de saída</th>
+                <th>Valor</th>
                 <th>Status</th>
                 <th>Usuário</th>
                 <th>Ação</th>
@@ -115,8 +120,9 @@
             <tbody> 
               @foreach ( $contents['services'] as $service )
                 <tr>
+                  <td id="id_service">{{ $service->id }}</td>
                   <td>{{ $service->space_number.' - '.$service->space_description }}</td>
-                  <td>{{ isset($service->id_customer) ? 'Sim' : 'Não' }}</td>
+                  <td name="is_clients">{{ isset($service->id_customer) ? 'Sim' : 'Não' }}</td>
                   <td>{{ $service->driver_name }}</td>
                   <td>{{ $service->driving_license_number }}</td>
                   <td>{{ $service->license_plate_number }}</td>
@@ -124,11 +130,31 @@
                   <td>{{ $service->vehicle_model }}</td>
                   <td>{{ $service->vehicle_color }}</td>
                   <td>{{ $service->service_type }}</td>
-                  <td>{{ date('d/m/Y H:s:i', strtotime($service->entry_time)) }}</td>
-                  <td>{{ $service->departure_time }}</td>
-                  <td>{{ $service->status }}</td>
+                  <td name="entry_times">{{ date('d/m/Y H:s:i', strtotime($service->entry_time)) }}</td>
+                  <td name="departure_times">
+                    @if($service->departure_time)
+                      {{ $service->departure_time }}
+                    @else
+                      --:--
+                    @endif
+                  </td>
+                  <td>
+                    @if($service->value)
+                      {{ $service->value }}
+                    @else
+                      --:--
+                    @endif
+                  </td>
+                  <td>
+                    @if($service->status == 'Em andamento')
+                      {{ $service->status }}<br>
+                      <iframe src="https://giphy.com/embed/l3q2IYN87QjIg51kc" width="30" height="30" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="#"></a></p>
+                    @else
+                      {{ $service->status }}
+                    @endif
+                  </td>
                   <td>{{ $service->user_name }}</td>
-                  <td><button class="btn btn-primary">Finalizar serviço</button></td>
+                  <td><button name="btns_finish" class="btn btn-primary">Finalizar serviço</button></td>
                 </tr>
               @endforeach
             </tbody>
@@ -139,4 +165,35 @@
     </section>
     <!-- /.content -->
   </div>
+  
+  <script>  
+    var btns_finish = document.getElementsByName('btns_finish');
+      btns_finish.forEach(btn_finish => {
+        btn_finish.addEventListener('click', function(){
+          if(confirm('Tem certeza que deseja finalizar este serviço?')){
+            let tr = btn_finish.parentElement.parentElement;
+
+            let id_service = tr.children[0].innerHTML;
+            let is_client = tr.children[2].innerHTML;
+            let entry_time = tr.children[10].innerHTML;
+            let departure_time = tr.children[11];
+
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': csrf_token
+                }
+            });
+            
+            $.post(
+            "{{route('finish_service')}}", 
+            {id_service: id_service}, 
+            function(data) {
+              console.log(data);
+            
+            });
+          }
+        });
+      }); 
+  </script>
 

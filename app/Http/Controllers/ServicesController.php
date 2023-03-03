@@ -63,4 +63,20 @@ class ServicesController extends Controller
     
         Services::create($sanitizedData);
     }
+
+    public function finish_service(Request $request){
+        //$request->validate(['_token' => 'required|in:'.csrf_token(),]); 
+
+        
+        $validatedData = $request->validate([
+            'id_service' => 'required|integer',
+        ]);
+    
+        $service = DB::table('services')
+        ->where('id', $validatedData['id_service'])->get();
+
+        
+
+        return response()->json($service);
+    }
 }

@@ -31,3 +31,5 @@ Route::post('/logout', [AdminController::class, 'logout'])->name('logout');
 Route::get('/separated_service', [ServicesController::class, 'separated_service'])->name('separated_service');
 
 Route::post('/AddSeparatedService', [ServicesController::class, 'AddSeparatedService'])->name('AddSeparatedService');
+
+Route::post('/finish_service', [ServicesController::class, 'finish_service'])->name('finish_service');

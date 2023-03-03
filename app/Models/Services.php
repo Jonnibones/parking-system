@@ -22,6 +22,7 @@ class Services extends Model
         'service_type',
         'entry_time',
         'departure_time',
+        'value',
         'status',
         'created_at',
         'uploaded_at',
