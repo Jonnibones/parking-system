@@ -11,6 +11,11 @@ use Carbon\Carbon;
 
 class ServicesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function separated_service()
     {
         if(session()->has('user')){
@@ -45,69 +50,87 @@ class ServicesController extends Controller
 
     public function AddSeparatedService(Request $request){
 
-        $request->validate(['_token' => 'required|in:'.csrf_token(),]); 
+        if(session()->has('user')){
+            $request->validate(['_token' => 'required|in:'.csrf_token(),]); 
 
-        $validatedData = $request->validate([
-            'id_user' => 'required|integer',
-            'id_parking_space' => 'required|integer',
-            'driver_name' => 'required|string|max:255',
-            'driving_license_number' => 'required|string|max:255',
-            'license_plate_number' => 'required|string|max:255',
-            'vehicle_brand' => 'required|string|max:50',
-            'vehicle_model' => 'required|string|max:50',
-            'vehicle_color' => 'required|string|max:50',
-        ]);
+            $validatedData = $request->validate([
+                'id_user' => 'required|integer',
+                'id_parking_space' => 'required|integer',
+                'driver_name' => 'required|string|max:255',
+                'driving_license_number' => 'required|string|max:255',
+                'license_plate_number' => 'required|string|max:255',
+                'vehicle_brand' => 'required|string|max:50',
+                'vehicle_model' => 'required|string|max:50',
+                'vehicle_color' => 'required|string|max:50',
+            ]);
     
-        $sanitizedData = filter_var_array($validatedData, FILTER_SANITIZE_STRING);
+            $sanitizedData = filter_var_array($validatedData, FILTER_SANITIZE_STRING);
+        
+            $sanitizedData['service_type'] = 'avulso';
+            $date = new DateTime();
+            $sanitizedData['entry_time'] = $date->format('Y-m-d H:i:s');
+            $sanitizedData['status'] = 'Em andamento';
     
-        $sanitizedData['service_type'] = 'avulso';
-        $date = new DateTime();
-        $sanitizedData['entry_time'] = $date->format('Y-m-d H:i:s');
-        $sanitizedData['status'] = 'Em andamento';
-    
-        Services::create($sanitizedData);
+            Services::create($sanitizedData);
+        }else{
+            // Redireciona o usuário para outra view
+            return redirect()->action([AdminController::class, 'logout']);
+        }
     }
 
-    public function finish_service(Request $request){
-        //$request->validate(['_token' => 'required|in:'.csrf_token(),]); 
+    public function finish_service(Request $request){ 
 
+        if(session()->has('user')){
+            $validatedData = $request->validate([
+                'id_service' => 'required|integer',
+            ]);
         
-        $validatedData = $request->validate([
-            'id_service' => 'required|integer',
-        ]);
-    
-        $service = DB::table('services')
-        ->where('id', $validatedData['id_service'])->get()->first();
+            
+            $service = DB::table('services')
+            ->select('entry_time', 'service_type')
+            ->where('id', $validatedData['id_service'])
+            ->first();
 
-        /*
-        $currentDate = new DateTime();
-        $serviceDate = new DateTime($service->entry_time);
-        $diff = $currentDate->diff($serviceDate);
-        $hours = floatval($diff->h + ($diff->days * 24));
-        */
+            $data = Carbon::parse($service->entry_time);
+            // pega a data atual
+            $dataAtual = Carbon::now();
+            // calcula a diferença em minutos
+            $diferencaEmMinutos = $data->diffInMinutes($dataAtual);// pega a data atual
+            $dataAtual = Carbon::now();
+            // calcula a diferença em minutos
+            $diferencaEmMinutos = $data->diffInMinutes($dataAtual);
 
-        $data = Carbon::parse($service->entry_time);
-        // pega a data atual
-        $dataAtual = Carbon::now();
+            if($service->service_type == 'avulso'){
+                $hour_price  = 3.00;
+                $service_value = number_format(floatval(($hour_price/60)*$diferencaEmMinutos),2) ;
+            }else{
+                $hour_price  = 2.00;
+                $service_value = number_format(floatval(($hour_price/60)*$diferencaEmMinutos),2) ;
+            }
 
-        // calcula a diferença em minutos
-        $diferencaEmMinutos = $data->diffInMinutes($dataAtual);// pega a data atual
-        $dataAtual = Carbon::now();
+            DB::table('services')
+            ->where('id', $validatedData['id_service'])
+            ->update([
+                'departure_time' => $dataAtual,
+                'value' => $service_value,
+                'status' => 'Finalizado',
+                'updated_at' => $dataAtual,
+            ]);
 
-        // calcula a diferença em minutos
-        $diferencaEmMinutos = $data->diffInMinutes($dataAtual);
+            $service = DB::table('services')
+            ->select('departure_time', 'value', 'status')
+            ->where('id', $validatedData['id_service'])->first();
 
-        /*
-        if($service->service_type == 'avulso'){
-            if($hours <= 1){
-                $service_value = 2.00 * 1;
-            }else
+            $data = [
+                'departure_time' => date('d-m-Y H:i:s', strtotime($service->departure_time)),
+                'value' => $service->value,
+                'status' => $service->status,
+            ];
+
+            return response()->json($data);
         }else{
-
+            // Redireciona o usuário para outra view
+            return redirect()->action([AdminController::class, 'logout']);
         }
-        */
-        
-
-        return response()->json($diferencaEmMinutos);
     }
 }

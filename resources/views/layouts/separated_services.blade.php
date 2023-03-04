@@ -150,7 +150,8 @@
                       {{ $service->status }}<br>
                       <iframe src="https://giphy.com/embed/l3q2IYN87QjIg51kc" width="30" height="30" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="#"></a></p>
                     @else
-                      {{ $service->status }}
+                      {{ $service->status }}<br>
+                      <i class="ion-checkmark-circled"></i>
                     @endif
                   </td>
                   <td>{{ $service->user_name }}</td>
@@ -174,9 +175,10 @@
             let tr = btn_finish.parentElement.parentElement;
 
             let id_service = tr.children[0].innerHTML;
-            let is_client = tr.children[2].innerHTML;
-            let entry_time = tr.children[10].innerHTML;
+
             let departure_time = tr.children[11];
+            let value = tr.children[12];
+            let status = tr.children[13];
 
             var csrf_token = $('meta[name="csrf-token"]').attr('content');
             $.ajaxSetup({
@@ -187,10 +189,13 @@
             
             $.post(
             "{{route('finish_service')}}", 
-            {id_service: id_service}, 
+            {id_service: id_service}, //<ion-icon name="checkmark-circle"></ion-icon>
             function(data) {
-              console.log(data);
-            
+                console.log(data);
+                departure_time.innerHTML = data.departure_time;
+                value.innerHTML = data.value;
+                status.innerHTML = data.status+'<br><i class="ion-checkmark-circled"></i>';
+                //tr.style.backgroundColor = 'green';
             });
           }
         });
