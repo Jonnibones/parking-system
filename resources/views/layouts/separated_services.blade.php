@@ -99,53 +99,53 @@
           <table  class="table table-striped" id="table_sep_services">
             <thead>
               <tr>
-                <th>ID serviço</th>
-                <th>Vaga</th>
-                <th>Cliente</th>
-                <th>Nome motorista</th>
-                <th>N° habilitação</th>
-                <th>Placa do carro</th>
-                <th>Marca</th>
-                <th>Modelo</th>
-                <th>Cor</th>
-                <th>Tipo de serviço</th>
-                <th>Data/Horário de entrada</th>
-                <th>Data/Horário de saída</th>
-                <th>Valor</th>
-                <th>Status</th>
-                <th>Usuário</th>
-                <th>Ação</th>
+                <th style="text-align: center;">ID serviço</th>
+                <th style="text-align: center;">Vaga</th>
+                <th style="text-align: center;">Cliente</th>
+                <th style="text-align: center;">Nome motorista</th>
+                <th style="text-align: center;">N° habilitação</th>
+                <th style="text-align: center;">Placa do carro</th>
+                <th style="text-align: center;">Marca</th>
+                <th style="text-align: center;">Modelo</th>
+                <th style="text-align: center;">Cor</th>
+                <th style="text-align: center;">Tipo de serviço</th>
+                <th style="text-align: center;">Data/Horário de entrada</th>
+                <th style="text-align: center;">Data/Horário de saída</th>
+                <th style="text-align: center;">Valor</th>
+                <th style="text-align: center;">Status</th>
+                <th style="text-align: center;">Usuário</th>
+                <th style="text-align: center;">Ação</th>
               </tr>
             </thead>
             <tbody> 
               @foreach ( $contents['services'] as $service )
                 <tr>
-                  <td id="id_service">{{ $service->id }}</td>
-                  <td>{{ $service->space_number.' - '.$service->space_description }}</td>
-                  <td name="is_clients">{{ isset($service->id_customer) ? 'Sim' : 'Não' }}</td>
-                  <td>{{ $service->driver_name }}</td>
-                  <td>{{ $service->driving_license_number }}</td>
-                  <td>{{ $service->license_plate_number }}</td>
-                  <td>{{ $service->vehicle_brand }}</td>
-                  <td>{{ $service->vehicle_model }}</td>
-                  <td>{{ $service->vehicle_color }}</td>
-                  <td>{{ $service->service_type }}</td>
-                  <td name="entry_times">{{ date('d/m/Y H:i:s', strtotime($service->entry_time)) }}</td>
-                  <td name="departure_times">
+                  <td style="text-align: center;" id="id_service">{{ $service->id }}</td>
+                  <td style="text-align: center;">{{ $service->space_number.' - '.$service->space_description }}</td>
+                  <td style="text-align: center;" name="is_clients">{{ isset($service->id_customer) ? 'Sim' : 'Não' }}</td>
+                  <td style="text-align: center;">{{ $service->driver_name }}</td>
+                  <td style="text-align: center;">{{ $service->driving_license_number }}</td>
+                  <td style="text-align: center;">{{ $service->license_plate_number }}</td>
+                  <td style="text-align: center;">{{ $service->vehicle_brand }}</td>
+                  <td style="text-align: center;">{{ $service->vehicle_model }}</td>
+                  <td style="text-align: center;">{{ $service->vehicle_color }}</td>
+                  <td style="text-align: center;">{{ $service->service_type }}</td>
+                  <td style="text-align: center;" name="entry_times">{{ date('d/m/Y H:i:s', strtotime($service->entry_time)) }}</td>
+                  <td style="text-align: center;" name="departure_times">
                     @if($service->departure_time)
                       {{ date('d/m/Y H:i:s', strtotime($service->departure_time)) }}
                     @else
                       --:--
                     @endif
                   </td>
-                  <td>
+                  <td style="text-align: center;">
                     @if($service->value)
                       {{ $service->value }}
                     @else
                       --:--
                     @endif
                   </td>
-                  <td>
+                  <td style="text-align: center;">
                     @if($service->status == 'Em andamento')
                       {{ $service->status }}<br>
                       <iframe src="https://giphy.com/embed/l3q2IYN87QjIg51kc" width="30" height="30" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="#"></a></p>
@@ -154,8 +154,8 @@
                       <i class="ion-checkmark-circled"></i>
                     @endif
                   </td>
-                  <td>{{ $service->user_name }}</td>
-                  <td><button name="btns_finish" class="btn btn-primary">Finalizar serviço</button></td>
+                  <td style="text-align: center;">{{ $service->user_name }}</td>
+                  <td style="text-align: center;"><button name="btns_finish" class="btn btn-primary">Finalizar serviço</button></td>
                 </tr>
               @endforeach
             </tbody>

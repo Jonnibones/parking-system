@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\ServicesController;
+use App\Http\Controllers\ReceiptController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,3 +34,5 @@ Route::get('/separated_service', [ServicesController::class, 'separated_service'
 Route::post('/AddSeparatedService', [ServicesController::class, 'AddSeparatedService'])->name('AddSeparatedService');
 
 Route::post('/finish_service', [ServicesController::class, 'finish_service'])->name('finish_service');
+
+Route::get('/service_receipt/{id}', [ReceiptController::class, 'index'])->name('service_receipt');
