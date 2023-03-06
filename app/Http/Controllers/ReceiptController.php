@@ -41,31 +41,28 @@ class ReceiptController extends Controller
             ->header('Content-Disposition', 'attachment;filename="' . $outputFilename . '"');
             */
 
-            $account_sid = env('TWILIO_ACCOUNT_SID');
-            $auth_token = env('TWILIO_AUTH_TOKEN');
+        $account_sid = env('TWILIO_ACCOUNT_SID');
+        $auth_token = env('TWILIO_AUTH_TOKEN');
 
-            // Inicializa o cliente Twilio
-            $client = new Client($account_sid, $auth_token);
-
-            // Envia o SMS
-            $message = $client->messages->create(
-                // Número de telefone do destinatário (com código do país)
-                '+5511959089347',
-                array(
-                    // Número de telefone da sua conta Twilio (com código do país)
-                    'from' => '+5511959089347',
-                    // Corpo da mensagem SMS
-                    'body' => 'Hello, World!'.$id
-                )
-            );
-
-            // Exibe a resposta da API Twilio
-            echo $message->sid;
-
+        // Inicializa o cliente Twilio com a classe padrão de cliente HTTP
+        $client = new Client($account_sid, $auth_token);
         
-    }
 
-    
-    
+        // Envia o SMS
+        $message = $client->messages->create(
+            // Número de telefone do destinatário (com código do país)
+            '+5511959089347',
+            array(
+                // Número de telefone da sua conta Twilio (com código do país)
+                'from' => '+5511959089347',
+                // Corpo da mensagem SMS
+                'body' => 'Hello, World!'.$id
+            )
+        );
+
+        // Exibe a resposta da API Twilio
+        echo $message->sid;
+    }
 }
+
 ?>
