@@ -41,8 +41,13 @@ class ReceiptController extends Controller
             ->header('Content-Disposition', 'attachment;filename="' . $outputFilename . '"');
             */
 
-        $account_sid = env('TWILIO_ACCOUNT_SID');
-        $auth_token = env('TWILIO_AUTH_TOKEN');
+        $twilio_codes = DB::table('twilio_codes')
+        ->select('*')
+        ->where('twilio_codes.id', 1)
+        ->first();
+
+        $account_sid = env($twilio_codes->twilio_account_sid);
+        $auth_token = env($twilio_codes->twilio_auth_token);
 
         // Inicializa o cliente Twilio com a classe padrão de cliente HTTP
         $client = new Client($account_sid, $auth_token);
