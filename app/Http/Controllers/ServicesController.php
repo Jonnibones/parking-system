@@ -7,6 +7,7 @@ use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Dompdf\Dompdf;
 
 
 class ServicesController extends Controller
@@ -72,11 +73,48 @@ class ServicesController extends Controller
             $sanitizedData['status'] = 'Em andamento';
     
             Services::create($sanitizedData);
+            
+            return redirect()->action([ServicesController::class, 'separated_service'])->with('success', 'Serviço adicionado.');
+
         }else{
             // Redireciona o usuário para outra view
             return redirect()->action([AdminController::class, 'logout']);
         }
     }
+
+    public function generate_receipt(Request $request)
+    {
+        if (session()->has('user')) {
+
+            $validatedData = $request->validate([
+                'id_service' => 'required|integer',
+            ]);
+
+            $id = $validatedData['id_service'];
+
+            $service = DB::table('services')
+                ->select('services.id', 'services.entry_time', 'parking_spaces.parking_space_number')
+                ->join('parking_spaces', 'parking_spaces.id', '=', 'services.id_parking_space')
+                ->where('services.id', $id)
+                ->first();
+
+            $dompdf = new Dompdf();
+            $dompdf->loadHtml(view('layouts.service_receipt', ['service'  => $service]));
+            $dompdf->render();
+
+            $outputFilename = 'recibo-servico-' . $validatedData['id_service'] . '.pdf';
+
+            return response(base64_encode($dompdf->output()))
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'attachment; filename="' . $outputFilename . '"');
+
+
+        } else {
+            // Redireciona o usuário para outra view
+            return redirect()->action([AdminController::class, 'logout']);
+        }
+    }
+
 
     public function finish_service(Request $request){ 
 
@@ -101,11 +139,22 @@ class ServicesController extends Controller
             $diferencaEmMinutos = $data->diffInMinutes($dataAtual);
 
             if($service->service_type == 'avulso'){
+
                 $hour_price  = 3.00;
-                $service_value = number_format(floatval(($hour_price/60)*$diferencaEmMinutos),2) ;
+                if($diferencaEmMinutos < 30){
+                    $service_value = 1.50;
+                }else{
+                    $service_value = number_format(floatval(($hour_price/60)*$diferencaEmMinutos),2);
+                }
+               
             }else{
+                
                 $hour_price  = 2.00;
-                $service_value = number_format(floatval(($hour_price/60)*$diferencaEmMinutos),2) ;
+                if($diferencaEmMinutos < 30){
+                    $service_value = 1.00;
+                }else{
+                    $service_value = number_format(floatval(($hour_price/60)*$diferencaEmMinutos),2);
+                }
             }
 
             DB::table('services')
