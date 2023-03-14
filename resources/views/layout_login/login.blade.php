@@ -6,10 +6,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>Login</title>
 
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
-    <script src="{{ asset('js/bootstrap.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('public/css/bootstrap.css') }}">
+    <script src="{{ asset('public/js/bootstrap.js') }}"></script>
 </head>
 
 <body style="padding-top:5%">
