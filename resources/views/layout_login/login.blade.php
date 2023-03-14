@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Login</title>
-
     <link rel="stylesheet" href="{{ asset('public/css/bootstrap.css') }}">
     <script src="{{ asset('public/js/bootstrap.js') }}"></script>
 </head>
@@ -53,7 +52,7 @@
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="" id="form2Example31"
                                 checked />
-                            <label class="form-check-label" for="form2Example31"> Lembrar-me </label>
+                            <label class="form-check-label" for="form2Example31"> Lembrar-me! </label>
                         </div>
                     </div>
                 </div>
