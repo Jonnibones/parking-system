@@ -33,7 +33,7 @@
                 <!-- Email input -->
                 <div class="form-outline mb-4 ">
                     <div style="margin: 20px">
-                        <img src="{{ $base_url }}public/images/logo.png" alt="">
+                        <img src="{{ asset('public/images/logo.png') }}" alt="">
                     </div>
                     <h3 class="text text-center">Parking-System</h3>
                     <input name="email" type="email" id="form2Example1" class="form-control" />
