@@ -24,7 +24,7 @@
                 <div class="alert alert-info">{{session('success')}}</div>
             @endif
 
-            <form action="<?php echo $base_url;?>auth", method="post">
+            <form action="<?php echo $base_url;?>auth" method="post">
 
                 <!-- Token crfs -->
                 {{ csrf_field() }}
