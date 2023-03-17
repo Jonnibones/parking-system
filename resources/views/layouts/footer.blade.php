@@ -49,5 +49,10 @@ $.widget.bridge('uibutton', $.ui.button)
 <script src="<?php echo $base_url;?>vendor/almasaeed2010/adminlte/dist/js/pages/dashboard.js"></script>
 <!-- Datatables -->
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<!-- Ladda -->
+
+
+
 </body>
 </html>
+

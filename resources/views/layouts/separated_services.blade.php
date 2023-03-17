@@ -79,15 +79,18 @@
               <div class="col col-md-3">
                 <label for="">Vaga</label>
                 <select required class="form-control" name="id_parking_space" id="">
-                  <option selected disabled value="">Selecione uma vaga</option>
-                  @foreach ($contents['spaces'] as $space )
-                      <option value="{{ $space->id }}">{{ $space->parking_space_number .' - '.$space->description }}</option>
-                  @endforeach
+                  @if (count($contents['spaces']) > 0 )
+                    <option selected disabled value="">Selecione uma vaga</option>
+                    @foreach ($contents['spaces'] as $space )
+                        <option value="{{ $space->id }}">{{ $space->parking_space_number .' - '.$space->description }}</option>
+                    @endforeach
+                  @else
+                    <option selected disabled value="">Vagas esgotadas</option>
+                  @endif
                 </select>
               </div>
             </div>
             <div style="margin-top: 20px;">
-              
               <input class="btn btn-primary float-right" value="Criar serviço" id="btn_create_service" type="submit">
             </div>
           </form>
@@ -99,8 +102,8 @@
         </div>
 
         <!-- Table -->
+        <h4>Serviços</h4>
         <div style="margin-top:40px; overflow:scroll" class="container">
-          <h4>Serviços</h4>
           <table  class="table table-striped" id="table_sep_services">
             <thead>
               <tr>
@@ -174,17 +177,18 @@
                   <td style="text-align: center;">{{ $service->user_name }}</td>
                   <td style="text-align: center;">
                     @if($service->status == 'Em andamento')
-                      <button name="btns_finish" class="btn btn-primary">Finalizar serviço</button>
+                      <button name="btns_finish" class="ladda-button" data-size="s" data-color="green" data-style="zoom-in" >Finalizar serviço</button>
                     @else
                       <button name="btns_finish" title="Serviço finalizado" disabled class="disabled btn btn-success">Serviço finalizado</button>
                     @endif
                   </td>
-                  <td style="text-align: center;"><button name="btns_generate_receipt" class="btn btn-primary">Gerar recibo</button></td>
+                  <td style="text-align: center;"><button name="btns_generate_receipt" data-size="s" class="ladda-button" data-color="purple" data-style="zoom-in">Gerar recibo</button></td>
                 </tr>
               @endforeach
             </tbody>
           </table>
         </div>
+
         <!-- /.row -->
       </div><!-- /.container-fluid -->
     </section>
@@ -197,6 +201,11 @@
     btns_finish.forEach(btn_finish => {
       btn_finish.addEventListener('click', function(){
         if(confirm('Tem certeza que deseja finalizar este serviço?')){
+
+          let btn_ladda = Ladda.create(btn_finish);
+          btn_ladda.start();
+
+
           let tr = btn_finish.parentElement.parentElement;
 
           let id_service = tr.children[0].innerHTML;
@@ -224,6 +233,7 @@
               btn_finish.title = "Serviço finalizado";
               btn_finish.disabled = true;
               tr.style.backgroundColor = '#98FB98';
+              btn_ladda.stop();
               alert('Serviço finalizado.')
           });
         }
@@ -235,6 +245,10 @@
     btns_generate_receipt.forEach(btn_generate_receipt => {
       btn_generate_receipt.addEventListener('click', function(){
         if(confirm('Tem certeza que deseja gerar o recibo para este serviço?')){
+
+          let btn_ladda = Ladda.create(btn_generate_receipt);
+          btn_ladda.start();
+
           let tr = btn_generate_receipt.parentElement.parentElement;
 
           let id_service = tr.children[0].innerHTML;
@@ -261,6 +275,7 @@
             link.href = window.URL.createObjectURL(blob);
             link.download = 'recibo-servico-' + id_service + '.pdf';
             link.click();
+            btn_ladda.stop();
             alert('Recibo gerado.');
               
           });

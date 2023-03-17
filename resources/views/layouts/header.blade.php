@@ -6,9 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AdminLTE 3 | Dashboard</title>
 
-    <!-- jQuery -->
-    <script 
-        src="<?php echo $base_url;?>vendor/almasaeed2010/adminlte/plugins/jquery/jquery.min.js"></script>
+
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -37,8 +35,25 @@
     <link rel="stylesheet"
         href="<?php echo $base_url; ?>/vendor/almasaeed2010/adminlte/plugins/summernote/summernote-bs4.min.css">
     <!-- Datatables -->
-    <link rel="stylesheet" 
-        href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/jquery.dataTables.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>  
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.11.3/datatables.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.extend(true, $.fn.dataTable.defaults, {
+                "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.13.4/i18n/pt-BR.json"
+                }
+            });
+        });
+    </script>
+    <!-- Ladda -->
+    <link href="https://cdn.jsdelivr.net/npm/ladda@2.0.1/dist/ladda.min.css" rel="stylesheet" />
+  <script src="/resources/js/spin.min.js"></script>
+  <script src="/resources/js/ladda.min.js"></script>
+
+
+
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
