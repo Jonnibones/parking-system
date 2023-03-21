@@ -33,6 +33,7 @@ class ServicesController extends Controller
             ->join('users', 'users.id', '=', 'services.id_user')
             ->join('parking_spaces', 'parking_spaces.id', '=', 'services.id_parking_space')
             ->join('customers', 'customers.id', '=', 'services.id_customer', 'left')
+            ->where('services.service_type', 'avulso')
             ->select('services.*', 'customers.name AS customer_name', 'parking_spaces.parking_space_number AS space_number', 
             'parking_spaces.description AS space_description', 'users.name AS user_name')
             ->orderBy('services.created_at', 'asc')
@@ -54,6 +55,15 @@ class ServicesController extends Controller
         if(session()->has('user')){
             $request->validate(['_token' => 'required|in:'.csrf_token(),]); 
 
+            $service_code = null;
+            while (!$service_code) {
+                $random_number = str_pad(mt_rand(1,99999), 5, '0', STR_PAD_LEFT);
+                $existing_service = Services::where('service_code', $random_number)->first();
+                if (!$existing_service) {
+                    $service_code = $random_number;
+                }
+            }
+
             $validatedData = $request->validate([
                 'id_user' => 'required|integer',
                 'id_parking_space' => 'required|integer',
@@ -63,11 +73,18 @@ class ServicesController extends Controller
                 'vehicle_brand' => 'required|string|max:50',
                 'vehicle_model' => 'required|string|max:50',
                 'vehicle_color' => 'required|string|max:50',
+                'driver_phone_number' => 'required|string|max:50',
+                'driver_email' => 'required|string|max:255',
             ]);
     
             $sanitizedData = filter_var_array($validatedData, FILTER_SANITIZE_STRING);
-        
+
+            $phone_number = $sanitizedData['driver_phone_number'];
+            $escapade_phone_number = preg_replace('/[^0-9]/', '', $phone_number);
+
             $sanitizedData['service_type'] = 'avulso';
+            $sanitizedData['service_code'] = $service_code;
+            $sanitizedData['driver_phone_number'] = $escapade_phone_number;
             $date = new DateTime();
             $sanitizedData['entry_time'] = $date->format('Y-m-d H:i:s');
             $sanitizedData['status'] = 'Em andamento';

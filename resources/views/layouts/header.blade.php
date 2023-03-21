@@ -49,10 +49,8 @@
     </script>
     <!-- Ladda -->
     <link href="https://cdn.jsdelivr.net/npm/ladda@2.0.1/dist/ladda.min.css" rel="stylesheet" />
-  <script src="<?php echo $base_url; ?>/resources/js/spin.min.js"></script>
-  <script src="<?php echo $base_url; ?>/resources/js/ladda.min.js"></script>
-
-
+    <script src="<?php echo $base_url; ?>/resources/js/spin.min.js"></script>
+    <script src="<?php echo $base_url; ?>/resources/js/ladda.min.js"></script>
 
 </head>
 

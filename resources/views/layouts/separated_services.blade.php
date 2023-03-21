@@ -7,6 +7,12 @@
     $(document).ready( function () {
       $('#table_sep_services').DataTable();
     } );
+
+    $(document).ready(function(){
+      $('#inp_phone_number').mask('(00) 00000-0000');
+    });
+
+
   </script>
 
   <!-- Content Wrapper. Contains page content -->
@@ -45,15 +51,22 @@
             <h4 style="margin-top: 30px; margin-botton:20px;">Dados motorista</h4>
             <input type="hidden" name="id_user" value="{{session('user')['id']}}">
             <div class="row" >
-                <div class="col col-md-6">
+                <div class="col col-md-4">
                     <label for="">Nome motorista</label>
                     <input required name="driver_name" class="form-control" type="text">
                 </div>
-                <div class="col col-md-6">
+                <div class="col col-md-4">
                     <label for="">N° habilitação</label>
                     <input required name="driving_license_number" class="form-control" type="text">
                 </div>
-                
+                <div class="col col-md-4">
+                  <label for="">E-mail</label>
+                  <input name="driver_email" class="form-control" type="email">
+                </div>
+                <div class="col col-md-4">
+                  <label for="">Telefone</label>
+                  <input required name="driver_phone_number" id="inp_phone_number" class="form-control" type="text">
+                </div>
             </div>
             <h4 style="margin-top: 30px; margin-botton:20px;">Dados veículo</h4>
             <div class="row" >
@@ -109,7 +122,7 @@
               <tr>
                 <th style="text-align: center;">ID serviço</th>
                 <th style="text-align: center;">Vaga</th>
-                <th style="text-align: center;">Cliente</th>
+                <th style="text-align: center;">Código da vaga</th>
                 <th style="text-align: center;">Nome motorista</th>
                 <th style="text-align: center;">N° habilitação</th>
                 <th style="text-align: center;">Placa do carro</th>
@@ -142,7 +155,7 @@
                 <tr style="background-color: {{$color}};">
                   <td style="text-align: center;" id="id_service">{{ $service->id }}</td>
                   <td style="text-align: center;">{{ $service->space_number.' - '.$service->space_description }}</td>
-                  <td style="text-align: center;" name="is_clients">{{ isset($service->id_customer) ? 'Sim' : 'Não' }}</td>
+                  <td style="text-align: center;">{{ $service->service_code }}</td>
                   <td style="text-align: center;">{{ $service->driver_name }}</td>
                   <td style="text-align: center;">{{ $service->driving_license_number }}</td>
                   <td style="text-align: center;">{{ $service->license_plate_number }}</td>

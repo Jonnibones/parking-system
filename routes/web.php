@@ -35,6 +35,6 @@ Route::post('/AddSeparatedService', [ServicesController::class, 'AddSeparatedSer
 
 Route::post('/finish_service', [ServicesController::class, 'finish_service'])->name('finish_service');
 
-Route::post('/generate_receipt', [ServicesController::class, 'generate_receipt'])->name('generate_receipt');
+Route::post('/generate_receipt', [ReceiptController::class, 'generate_receipt'])->name('generate_receipt');
 
 Route::get('/service_receipt/{id}', [ReceiptController::class, 'index'])->name('service_receipt');
