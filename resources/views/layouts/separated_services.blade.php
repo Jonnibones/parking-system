@@ -122,14 +122,14 @@
               <tr>
                 <th style="text-align: center;">ID serviço</th>
                 <th style="text-align: center;">Vaga</th>
-                <th style="text-align: center;">Código da vaga</th>
+                <th style="text-align: center;">Código do serviço</th>
                 <th style="text-align: center;">Nome motorista</th>
+                <th style="text-align: center;">Telefone motorista</th>
                 <th style="text-align: center;">N° habilitação</th>
                 <th style="text-align: center;">Placa do carro</th>
                 <th style="text-align: center;">Marca</th>
                 <th style="text-align: center;">Modelo</th>
                 <th style="text-align: center;">Cor</th>
-                <th style="text-align: center;">Tipo de serviço</th>
                 <th style="text-align: center;">Data/Horário de entrada</th>
                 <th style="text-align: center;">Data/Horário de saída</th>
                 <th style="text-align: center;">Valor</th>
@@ -157,12 +157,12 @@
                   <td style="text-align: center;">{{ $service->space_number.' - '.$service->space_description }}</td>
                   <td style="text-align: center;">{{ $service->service_code }}</td>
                   <td style="text-align: center;">{{ $service->driver_name }}</td>
+                  <td style="text-align: center;">{{ $service->driver_phone_number }}</td>
                   <td style="text-align: center;">{{ $service->driving_license_number }}</td>
                   <td style="text-align: center;">{{ $service->license_plate_number }}</td>
                   <td style="text-align: center;">{{ $service->vehicle_brand }}</td>
                   <td style="text-align: center;">{{ $service->vehicle_model }}</td>
                   <td style="text-align: center;">{{ $service->vehicle_color }}</td>
-                  <td style="text-align: center;">{{ $service->service_type }}</td>
                   <td style="text-align: center;" name="entry_times">{{ date('d/m/Y H:i:s', strtotime($service->entry_time)) }}</td>
                   <td style="text-align: center;" name="departure_times">
                     @if($service->departure_time)
