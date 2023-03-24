@@ -86,7 +86,7 @@ class ReceiptController extends Controller
                 ->first();
 
             $dompdf = new Dompdf();
-            $dompdf->loadHtml(view('layouts.service_receipt', ['service'  => $service]));
+            $dompdf->loadHtml(view('layout_pdf.service_receipt', ['service'  => $service]));
             $dompdf->render();
 
             $outputFilename = 'recibo-servico-' . $validatedData['id_service'] . '.pdf';

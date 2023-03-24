@@ -2,12 +2,14 @@
   <!-- SET CSRF TOKEN  -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <!-- Datatables initialisation -->
+  
   <script>
+    //Datatables initialisation 
     $(document).ready( function () {
       $('#table_sep_services').DataTable();
     } );
 
+    //Máscara de input
     $(document).ready(function(){
       $('#inp_phone_number').mask('(00) 00000-0000');
     });
@@ -95,12 +97,29 @@
                   @if (count($contents['spaces']) > 0 )
                     <option selected disabled value="">Selecione uma vaga</option>
                     @foreach ($contents['spaces'] as $space )
-                        <option value="{{ $space->id }}">{{ $space->parking_space_number .' - '.$space->description }}</option>
+                        <option value="{{ $space->id }}">{{ $space->parking_space_number.' - '.$space->description }}</option>
                     @endforeach
                   @else
                     <option selected disabled value="">Vagas esgotadas</option>
                   @endif
                 </select>
+              </div>
+            </div>
+            <h4 style="margin-top: 30px; margin-botton:20px;">Recibo</h4>
+            <div class="row" >
+              <div class="col col-md-3">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="1" name="receipt_email" id="defaultCheck1">
+                  <label class="form-check-label" for="defaultCheck1">
+                    Receber recibo por e-mail
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="1" name="receipt_sms" id="defaultCheck1">
+                  <label class="form-check-label" for="defaultCheck1">
+                    Receber recibo por sms
+                  </label>
+                </div>
               </div>
             </div>
             <div style="margin-top: 20px;">
