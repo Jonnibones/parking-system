@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\EmailSender;
 use App\Models\Services;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Dompdf\Dompdf;
+use Illuminate\Support\Facades\Mail;
 
 
 class ServicesController extends Controller
@@ -88,6 +90,11 @@ class ServicesController extends Controller
             $date = new DateTime();
             $sanitizedData['entry_time'] = $date->format('Y-m-d H:i:s');
             $sanitizedData['status'] = 'Em andamento';
+
+            if ($request->input('receipt_email') === '1') {
+                Mail::to($sanitizedData['driver_email'])->send(new EmailSender($sanitizedData));
+            }
+    
     
             Services::create($sanitizedData);
             
