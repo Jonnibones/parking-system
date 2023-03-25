@@ -24,16 +24,16 @@
 	<table>
 		<thead>
 			<tr>
-                <th>ID serviço</th>
+                <th>Motorista</th>
 				<th>Data/Horário entrada</th>
 				<th>N° vaga</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-                <td>{{ $service->id }}</td>
-				<td>{{ $service->entry_time }}</td>
-				<td>{{ $service->parking_space_number }}</td>
+                <td>{{ $service['driver_name'] }}</td>
+				<td>{{ $service['entry_time'] }}</td>
+				<td>{{ $service['service_code'] }}</td>
 			</tr>
 		</tbody>
 	</table>
