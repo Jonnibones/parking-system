@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Dompdf\Dompdf;
 use Illuminate\Support\Facades\Mail;
+use Twilio\Rest\Client;
 
 
 class ServicesController extends Controller
@@ -93,6 +94,40 @@ class ServicesController extends Controller
 
             if ($request->input('receipt_email') === '1') {
                 Mail::to($sanitizedData['driver_email'])->send(new EmailSender($sanitizedData));
+            }
+
+            if ($request->input('receipt_sms') === '1') {
+
+                $twilio_codes = DB::table('twilio_codes')
+                ->select('*')
+                ->where('twilio_codes.id', 1)
+                ->first();
+
+                $account_sid = $twilio_codes->twilio_account_sid;
+                $auth_token = $twilio_codes->twilio_auth_token;
+
+                //var_dump($account_sid);
+                //var_dump($auth_token); die();
+
+                // Inicializa o cliente Twilio com a classe padrão de cliente HTTP
+                $client = new Client($account_sid, $auth_token);
+                
+
+                // Envia o SMS
+                $message = $client->messages->create(
+                    // Número de telefone do destinatário (com código do país)
+                    '+5511959089347',
+                    array(
+                        // Número de telefone da sua conta Twilio (com código do país)
+                        'from' => '+5511959089347',
+                        // Corpo da mensagem SMS
+                        'body' => 'Hello, World!'
+                    )
+                );
+
+                // Exibe a resposta da API Twilio
+                echo $message->sid; 
+                die();
             }
     
     
