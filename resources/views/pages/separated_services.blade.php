@@ -111,13 +111,7 @@
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="1" name="receipt_email" id="defaultCheck1">
                   <label class="form-check-label" for="defaultCheck1">
-                    Receber recibo por e-mail
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="1" name="receipt_sms" id="defaultCheck1">
-                  <label class="form-check-label" for="defaultCheck1">
-                    Receber recibo por sms
+                    Enviar recibo por e-mail
                   </label>
                 </div>
               </div>

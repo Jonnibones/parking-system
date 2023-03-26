@@ -31,7 +31,7 @@ class EmailSender extends Mailable
      */
     public function build()
     {
-        return $this->view('layout_email.receipt')
+        return $this->view('layout_email.service_receipt')
         ->with(['service' => $this->service]);
     }
 }
