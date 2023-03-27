@@ -26,8 +26,11 @@ class ReceiptController extends Controller
 
             $service = DB::table('services')
                 ->select('services.id', 'services.entry_time', 'services.service_code', 'parking_spaces.parking_space_number', 
-                'parking_spaces.description AS parking_space_description')
+                'parking_spaces.description AS parking_space_description', 'services.driver_name', 'services.driving_license_number',
+                'services.license_plate_number', 'services.vehicle_brand','services.vehicle_model', 'services.vehicle_color', 'services.status', 
+                'users.name AS operator_name' )
                 ->join('parking_spaces', 'parking_spaces.id', '=', 'services.id_parking_space')
+                ->join('users', 'users.id', '=', 'services.id_user')
                 ->where('services.id', $id)
                 ->first();
 

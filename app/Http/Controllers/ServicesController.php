@@ -92,11 +92,13 @@ class ServicesController extends Controller
             $sanitizedData['entry_time'] = $date->format('Y-m-d H:i:s');
             $sanitizedData['status'] = 'Em andamento';
 
+            $service = Services::create($sanitizedData);
+            $service_id = $service->id;
             if ($request->input('receipt_email') === '1') {
-                Mail::to($sanitizedData['driver_email'])->send(new EmailSender($sanitizedData));
+                Mail::to($sanitizedData['driver_email'])->send(new EmailSender($service_id));
             }    
     
-            Services::create($sanitizedData);
+            
             
             return redirect()->action([ServicesController::class, 'separated_service'])->with('success', 'Serviço adicionado.');
 
