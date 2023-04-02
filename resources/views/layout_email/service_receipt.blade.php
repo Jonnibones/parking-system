@@ -17,6 +17,9 @@
 			padding: 8px;
 			border: 1px solid #ccc;
 		}
+		.titles{
+			background-color: rgb(197, 211, 215);
+		}
 		.logo {
 			max-width: 60px;
 			float: right;

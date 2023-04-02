@@ -17,6 +17,9 @@
 			padding: 8px;
 			border: 1px solid #ccc;
 		}
+		.titles{
+			background-color: rgb(197, 211, 215);
+		}
 		.logo {
 			max-width: 60px;
 			float: right;
@@ -30,7 +33,7 @@
 	<h1>Recibo de Serviço</h1>
 	<table>
 		<thead>
-			<tr>
+			<tr class="titles">
 				<th>ID serviço</th>
 				<th>Código do serviço</th>
 				<th>Data/Horário entrada</th>
@@ -44,7 +47,7 @@
 				<td>{{ date('d-m-Y H:i:s', strtotime($service->entry_time)) }}</td>
 				<td>{{ $service->parking_space_number.' - '.$service->parking_space_description }}</td>
 			</tr>
-			<tr>
+			<tr class="titles">
 				<th>Nome motorista</th>
 				<th>N° habilitação</th>
 				<th>N° placa</th>
@@ -56,7 +59,7 @@
 				<td>{{ $service->license_plate_number }}</td>
 				<td>{{ $service->vehicle_brand }}</td>
 			</tr>
-			<tr>
+			<tr class="titles">
 				<th>Modelo veículo</th>
 				<th>Cor veículo</th>
 				<th>Status serviço</th>
