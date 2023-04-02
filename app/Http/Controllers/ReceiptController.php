@@ -48,7 +48,6 @@ class ReceiptController extends Controller
 
 
         } else {
-            // Redireciona o usuário para outra view
             return redirect()->action([AdminController::class, 'logout']);
         }
     }

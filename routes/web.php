@@ -33,8 +33,16 @@ Route::get('/separated_service', [ServicesController::class, 'separated_service'
 
 Route::post('/AddSeparatedService', [ServicesController::class, 'AddSeparatedService'])->name('AddSeparatedService');
 
+Route::get('/customer_service', [ServicesController::class, 'customer_service'])->name('customer_service');
+
+Route::post('/AddCustomerService', [ServicesController::class, 'AddCustomerService'])->name('AddCustomerService');
+
 Route::post('/finish_service', [ServicesController::class, 'finish_service'])->name('finish_service');
 
 Route::post('/generate_receipt', [ReceiptController::class, 'generate_receipt'])->name('generate_receipt');
+
+Route::post('/get_customer', [ServicesController::class, 'get_customer'])->name('get_customer');
+
+Route::post('/get_vehicle', [ServicesController::class, 'get_vehicle'])->name('get_vehicle');
 
 Route::get('/service_receipt/{id}', [ReceiptController::class, 'index'])->name('service_receipt');

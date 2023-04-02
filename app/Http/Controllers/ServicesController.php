@@ -53,7 +53,8 @@ class ServicesController extends Controller
         }
     }
 
-    public function AddSeparatedService(Request $request){
+    public function AddSeparatedService(Request $request)
+    {
 
         if(session()->has('user')){
             $request->validate(['_token' => 'required|in:'.csrf_token(),]); 
@@ -108,41 +109,158 @@ class ServicesController extends Controller
         }
     }
 
-    public function generate_receipt(Request $request)
+    public function customer_service()
     {
-        if (session()->has('user')) {
+        if(session()->has('user')){
+            
+            $spaces = DB::table('parking_spaces')
+            ->whereNotExists(function($query){
+                $query->select(DB::raw(1))
+                ->from('services')
+                ->whereColumn('services.id_parking_space', 'parking_spaces.id');
+            })
+            ->get();
+
+            $services = DB::table('services')
+            ->join('users', 'users.id', '=', 'services.id_user')
+            ->join('parking_spaces', 'parking_spaces.id', '=', 'services.id_parking_space')
+            ->join('customers', 'customers.id', '=', 'services.id_customer', 'left')
+            ->where('services.service_type', 'cliente')
+            ->select('services.*', 'customers.name AS customer_name', 'parking_spaces.parking_space_number AS space_number', 
+            'parking_spaces.description AS space_description', 'users.name AS user_name')
+            ->orderBy('services.created_at', 'asc')
+            ->get();
+
+            $customers = DB::table('customers')
+            ->select('id', 'name')
+            ->get();
+
+            $contents = [
+                'view' => 'customer_services',
+                'spaces' => $spaces,
+                'services' => $services,
+                'customers' => $customers,
+            ];
+            return view('master', compact('contents'));
+        }else{
+            return back()->withErrors(['message' => 'Acesso restrito!']);
+        }
+    }
+
+    public function AddCustomerService(Request $request)
+    {
+
+        if(session()->has('user')){
+            $request->validate(['_token' => 'required|in:'.csrf_token(),]); 
+
+            $service_code = null;
+            while (!$service_code) {
+                $random_number = str_pad(mt_rand(1,99999), 5, '0', STR_PAD_LEFT);
+                $existing_service = Services::where('service_code', $random_number)->first();
+                if (!$existing_service) {
+                    $service_code = $random_number;
+                }
+            }
 
             $validatedData = $request->validate([
-                'id_service' => 'required|integer',
+                'id_user' => 'required|integer',
+                'id_customer' => 'required|integer',
+                'id_parking_space' => 'required|integer',
+                'driving_license_number' => 'required|string|max:255',
+                'license_plate_number' => 'required|string|max:255',
+                'vehicle_brand' => 'required|string|max:50',
+                'vehicle_model' => 'required|string|max:50',
+                'vehicle_color' => 'required|string|max:50',
+                'driver_phone_number' => 'required|string|max:50',
+                'driver_email' => 'required|string|max:255',
             ]);
+    
+            $sanitizedData = filter_var_array($validatedData, FILTER_SANITIZE_STRING);
 
-            $id = $validatedData['id_service'];
+            $customer =  DB::table('customers')
+            ->select('name')
+            ->where('id', $sanitizedData['id_customer'])
+            ->first();
 
-            $service = DB::table('services')
-                ->select('services.id', 'services.entry_time', 'parking_spaces.parking_space_number')
-                ->join('parking_spaces', 'parking_spaces.id', '=', 'services.id_parking_space')
-                ->where('services.id', $id)
-                ->first();
+            $sanitizedData['driver_name'] = $customer->name;
 
-            $dompdf = new Dompdf();
-            $dompdf->loadHtml(view('layouts.service_receipt', ['service'  => $service]));
-            $dompdf->render();
+            $phone_number = $sanitizedData['driver_phone_number'];
+            $escapade_phone_number = preg_replace('/[^0-9]/', '', $phone_number);
 
-            $outputFilename = 'recibo-servico-' . $validatedData['id_service'] . '.pdf';
+            $sanitizedData['service_type'] = 'cliente';
+            $sanitizedData['service_code'] = $service_code;
+            $sanitizedData['driver_phone_number'] = $escapade_phone_number;
+            $date = new DateTime();
+            $sanitizedData['entry_time'] = $date->format('Y-m-d H:i:s');
+            $sanitizedData['status'] = 'Em andamento';
 
-            return response(base64_encode($dompdf->output()))
-            ->header('Content-Type', 'application/pdf')
-            ->header('Content-Disposition', 'attachment; filename="' . $outputFilename . '"');
+            $service = Services::create($sanitizedData);
+            $service_id = $service->id;
+            if ($request->input('receipt_email') === '1') {
+                Mail::to($sanitizedData['driver_email'])->send(new EmailSender($service_id));
+            }    
+    
+            
+            
+            return redirect()->action([ServicesController::class, 'customer_service'])->with('success', 'Serviço adicionado.');
 
-
-        } else {
+        }else{
             // Redireciona o usuário para outra view
             return redirect()->action([AdminController::class, 'logout']);
         }
     }
 
+    public function get_customer(Request $request)
+    {
 
-    public function finish_service(Request $request){ 
+        if(session()->has('user')){
+            $validatedData = $request->validate([
+                'id_customer' => 'required|integer',
+            ]);
+        
+            
+            $customer_data = DB::table('customers')
+            ->select('id', 'driving_license_number', 'email', 'phone')
+            ->where('id', $validatedData['id_customer'])
+            ->first();
+
+            $customer_vehicles = DB::table('customer_vehicles')
+            ->select('id', 'model')
+            ->where('id_customer', $customer_data->id)
+            ->get()
+            ->toArray();
+
+            $data = array_merge(get_object_vars($customer_data), ['vehicles' => $customer_vehicles]);
+
+            return response()->json($data);
+
+        }else{
+            return redirect()->action([AdminController::class, 'logout']);
+        }
+    }
+
+    public function get_vehicle(Request $request)
+    {
+        if(session()->has('user')){
+            $validatedData = $request->validate([
+                'id_vehicle' => 'required|integer',
+            ]);
+        
+            
+            $vehicle_data = DB::table('customer_vehicles')
+            ->select('license_plate_number', 'brand', 'color')
+            ->where('id', $validatedData['id_vehicle'])
+            ->first();
+
+            return response()->json($vehicle_data);
+
+        }else{
+            return redirect()->action([AdminController::class, 'logout']);
+        }
+    }
+
+    public function finish_service(Request $request)
+    { 
 
         if(session()->has('user')){
             $validatedData = $request->validate([

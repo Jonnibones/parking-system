@@ -77,21 +77,21 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('separated_service')}}" class="nav-link">
-                  <i class="{{ request()->segment(1) == 'separated_service' ? 'fas fa-circle nav-icon' : 'far fa-circle nav-icon' }}"></i>
-                  <p>Serviço avulso</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/charts/flot.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Serviço cliente</p>
-                </a>
-              </li>
-              <li class="nav-item">
                 <a href="pages/charts/inline.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Editar serviço</p>
+                  <p>Serviços</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('separated_service')}}" class="nav-link">
+                  <i class="{{ request()->segment(1) == 'separated_service' ? 'fas fa-circle nav-icon' : 'far fa-circle nav-icon' }}"></i>
+                  <p>Novo serviço avulso</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('customer_service')}}" class="nav-link">
+                  <i class="{{ request()->segment(1) == 'customer_service' ? 'fas fa-circle nav-icon' : 'far fa-circle nav-icon' }}"></i>
+                  <p>Novo serviço cliente</p>
                 </a>
               </li>
             </ul>
