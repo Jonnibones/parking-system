@@ -8,6 +8,7 @@
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1 class="m-0">Dashboard</h1>
+            
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -22,6 +23,7 @@
 
     <!-- Main content -->
     <section class="content">
+      <!-- ColorsBoxes -->
       <div class="container-fluid">
         <!-- Small boxes (Stat box) -->
         <div style="margin-top: 10%" class="row">
@@ -600,7 +602,37 @@
           <!-- right col -->
         </div>
         <!-- /.row (main row) -->
-      </div><!-- /.container-fluid -->
+      </div>
+      <!-- ColorsBoxes -->
+      <div style="margin-top:30px; margin-bottom:30px;" class="col-sm-6">
+        <h4 class="m-0">Mapa do estacionamento</h4><br>
+        <h6>Número de vagas: {{ $contents['number_spaces'] }}</h6>
+        <h6>Número de vagas disponíveis: {{ $contents['number_spaces'] - $contents['number_services']}}</h6>
+        <h6>Número de vagas ocupadas: {{ $contents['number_services'] }}</h6>
+      </div><!-- /.col -->
+      <!-- Layout parking spaces -->
+      <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+        <div style="overflow-x: scroll; overflow-y:scroll; height:400px;  display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(4, 1fr); grid-gap: 10px;" class="row">
+          @foreach ($contents['parking_spaces'] as $spaces)
+            @if ($spaces->ocuppied)
+              <div style="text-align:center;" class="icon">
+                <i style="color:rgb(199, 45, 18); font-size: 50px;" title="Vaga: {{ $spaces->parking_space_number }} - Ocupada" class="ion-android-car"></i><br>
+                <small >Vaga: {{ $spaces->parking_space_number }} - Ocupada</small>
+              </div>
+            @else
+              <div style="text-align:center;" class="icon">
+                <i style="color: rgb(30, 190, 30); font-size: 50px;" title="Vaga: {{ $spaces->parking_space_number }} - Livre"  class="ion-android-expand"></i><br>
+                <small >Vaga: {{ $spaces->parking_space_number }} - Disponível</small>
+              </div>
+            @endif
+          @endforeach
+        </div>   
+        
+        <!-- /.row -->
+      </div>
+      <!-- Layout parking spaces -->
+
     </section>
     <!-- /.content -->
   </div>
