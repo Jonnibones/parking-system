@@ -28,7 +28,8 @@ class ServicesController extends Controller
             ->whereNotExists(function($query){
                 $query->select(DB::raw(1))
                 ->from('services')
-                ->whereColumn('services.id_parking_space', 'parking_spaces.id');
+                ->whereColumn('services.id_parking_space', 'parking_spaces.id')
+                ->where('services.status', '!=', 'Finalizado');
             })
             ->get();
 
@@ -117,7 +118,8 @@ class ServicesController extends Controller
             ->whereNotExists(function($query){
                 $query->select(DB::raw(1))
                 ->from('services')
-                ->whereColumn('services.id_parking_space', 'parking_spaces.id');
+                ->whereColumn('services.id_parking_space', 'parking_spaces.id')
+                ->where('services.status', '!=', 'Finalizado');
             })
             ->get();
 
