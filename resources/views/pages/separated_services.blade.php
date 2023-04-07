@@ -176,10 +176,10 @@
                   <td style="text-align: center;">{{ $service->vehicle_brand }}</td>
                   <td style="text-align: center;">{{ $service->vehicle_model }}</td>
                   <td style="text-align: center;">{{ $service->vehicle_color }}</td>
-                  <td style="text-align: center;" name="entry_times">{{ date('d/m/Y H:i:s', strtotime($service->entry_time)) }}</td>
+                  <td style="text-align: center;" name="entry_times">{{ date('d-m-Y H:i:s', strtotime($service->entry_time)) }}</td>
                   <td style="text-align: center;" name="departure_times">
                     @if($service->departure_time)
-                      {{ date('d/m/Y H:i:s', strtotime($service->departure_time)) }}
+                      {{ date('d-m-Y H:i:s', strtotime($service->departure_time)) }}
                     @else
                       --:--
                     @endif

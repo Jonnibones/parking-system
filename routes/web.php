@@ -29,6 +29,8 @@ Route::get('/main', [MainController::class, 'index'])->name('main');
 
 Route::post('/logout', [AdminController::class, 'logout'])->name('logout');
 
+Route::get('/services', [ServicesController::class, 'services'])->name('services');
+
 Route::get('/separated_service', [ServicesController::class, 'separated_service'])->name('separated_service');
 
 Route::post('/AddSeparatedService', [ServicesController::class, 'AddSeparatedService'])->name('AddSeparatedService');

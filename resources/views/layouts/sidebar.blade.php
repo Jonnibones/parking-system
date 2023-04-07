@@ -77,8 +77,8 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/charts/inline.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                <a href="{{route('services')}}" class="nav-link">
+                  <i class="{{ request()->segment(1) == 'services' ? 'fas fa-circle nav-icon' : 'far fa-circle nav-icon' }}"></i>
                   <p>Serviços</p>
                 </a>
               </li>
