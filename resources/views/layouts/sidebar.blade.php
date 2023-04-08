@@ -107,8 +107,8 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/charts/chartjs.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                <a href="{{route('parking_spaces')}}" class="nav-link">
+                  <i class="{{ request()->segment(1) == 'parking_spaces' ? 'fas fa-circle nav-icon' : 'far fa-circle nav-icon' }}"></i>
                   <p>Gerenciar vagas</p>
                 </a>
               </li>

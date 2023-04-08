@@ -17,7 +17,7 @@ class MainController extends Controller
             DB::raw('max(CASE WHEN services.status = "Em andamento" THEN "Em andamento" ELSE NULL END) AS ocuppied'), 'services.driver_name'
             , 'services.service_type')
             ->orderBy('parking_spaces.parking_space_number')
-            ->groupBy('parking_spaces.id', 'services.driver_name', 'services.service_type')
+            ->groupBy('parking_spaces.id', 'services.driver_name', 'services.service_type', 'parking_spaces.parking_space_number')
             ->get();
 
 
