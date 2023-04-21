@@ -44,6 +44,7 @@
                     <thead>
                         <tr>
                             <th style="text-align: center;">ID serviço</th>
+                            <th style="text-align: center;">Tipo serviço</th>
                             <th style="text-align: center;">Vaga</th>
                             <th style="text-align: center;">Código do serviço</th>
                             <th style="text-align: center;">Nome motorista</th>
@@ -75,34 +76,44 @@
                             @endif
 
                             <tr style="background-color: {{ $color }};">
-                                <td style="text-align: center;" id="id_service">{{ $service->id }}</td>
-                                <td style="text-align: center;">
+                                <td data-id="td_id_service" style="text-align: center;" id="id_service">
+                                    {{ $service->id }}</td>
+                                <td data-id="td_service_type">{{ $service->service_type }}</td>
+                                <td data-id="td_space" style="text-align: center;">
                                     {{ $service->space_number . ' - ' . $service->space_description }}</td>
-                                <td style="text-align: center;">{{ $service->service_code }}</td>
-                                <td style="text-align: center;">{{ $service->driver_name }}</td>
-                                <td style="text-align: center;">{{ $service->driver_phone_number }}</td>
-                                <td style="text-align: center;">{{ $service->driving_license_number }}</td>
-                                <td style="text-align: center;">{{ $service->license_plate_number }}</td>
-                                <td style="text-align: center;">{{ $service->vehicle_brand }}</td>
-                                <td style="text-align: center;">{{ $service->vehicle_model }}</td>
-                                <td style="text-align: center;">{{ $service->vehicle_color }}</td>
-                                <td style="text-align: center;" name="entry_times">
+                                <td data-id="td_service_code" style="text-align: center;">{{ $service->service_code }}
+                                </td>
+                                <td data-id="td_driver_name" style="text-align: center;">{{ $service->driver_name }}
+                                </td>
+                                <td data-id="td_driver_phone_number" style="text-align: center;">
+                                    {{ $service->driver_phone_number }}</td>
+                                <td data-id="td_driving_license_number" style="text-align: center;">
+                                    {{ $service->driving_license_number }}</td>
+                                <td data-id="td_license_plate_number" style="text-align: center;">
+                                    {{ $service->license_plate_number }}</td>
+                                <td data-id="td_vehicle_brand" style="text-align: center;">
+                                    {{ $service->vehicle_brand }}</td>
+                                <td data-id="td_vehicle_model" style="text-align: center;">
+                                    {{ $service->vehicle_model }}</td>
+                                <td data-id="td_vehicle_color" style="text-align: center;">
+                                    {{ $service->vehicle_color }}</td>
+                                <td data-id="td_entry_time" style="text-align: center;" name="entry_times">
                                     {{ date('d-m-Y H:i:s', strtotime($service->entry_time)) }}</td>
-                                <td style="text-align: center;" name="departure_times">
+                                <td data-id="td_departure_time" style="text-align: center;" name="departure_times">
                                     @if ($service->departure_time)
                                         {{ date('d-m-Y H:i:s', strtotime($service->departure_time)) }}
                                     @else
                                         --:--
                                     @endif
                                 </td>
-                                <td style="text-align: center;">
+                                <td data-id="td_value" style="text-align: center;">
                                     @if ($service->value)
                                         {{ $service->value }}
                                     @else
                                         --:--
                                     @endif
                                 </td>
-                                <td style="text-align: center;">
+                                <td data-id="td_status" style="text-align: center;">
                                     @if ($service->status == 'Em andamento')
                                         {{ $service->status }}<br>
                                         <iframe src="https://giphy.com/embed/l3q2IYN87QjIg51kc" width="30"
@@ -113,8 +124,8 @@
                                         <i style="color:#00FF00" class="ion-checkmark-circled"></i>
                                     @endif
                                 </td>
-                                <td style="text-align: center;">{{ $service->user_name }}</td>
-                                <td style="text-align: center;">
+                                <td data-id="td_user_name" style="text-align: center;">{{ $service->user_name }}</td>
+                                <td data-id="td_button_service" style="text-align: center;">
                                     @if ($service->status == 'Em andamento')
                                         <button name="btns_finish" class="ladda-button" data-size="s"
                                             data-color="green" data-style="zoom-in">Finalizar serviço</button>
@@ -123,9 +134,10 @@
                                             class="disabled btn btn-success">Serviço finalizado</button>
                                     @endif
                                 </td>
-                                <td style="text-align: center;">
-                                    <button name="btns_generate_receipt" data-size="s" class="ladda-button" data-color="purple" data-style="zoom-in">Gerar recibo</button>
-                                </td>
+                                <td data-id="td_button_receipt" style="text-align: center;"><button
+                                        name="btns_generate_receipt" data-size="s" class="ladda-button"
+                                        data-color="purple" data-style="zoom-in">Gerar
+                                        recibo</button></td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -151,11 +163,11 @@
 
                 let tr = btn_finish.parentElement.parentElement;
 
-                let id_service = tr.children[0].innerHTML;
+                let id_service = tr.querySelector('td[data-id="td_id_service"]').innerHTML;
 
-                let departure_time = tr.children[11];
-                let value = tr.children[12];
-                let status = tr.children[13];
+                let departure_time = tr.querySelector('td[data-id="td_departure_time"]');
+                let value = tr.querySelector('td[data-id="td_value"]');
+                let status = tr.querySelector('td[data-id="td_status"]');
 
                 var csrf_token = $('meta[name="csrf-token"]').attr('content');
                 $.ajaxSetup({
@@ -196,7 +208,7 @@
 
                 let tr = btn_generate_receipt.parentElement.parentElement;
 
-                let id_service = tr.children[0].innerHTML;
+                let id_service = tr.querySelector('td[data-id="td_id_service"]').innerHTML;
 
                 var csrf_token = $('meta[name="csrf-token"]').attr('content');
                 $.ajaxSetup({

@@ -53,3 +53,9 @@ Route::get('/service_receipt/{id}', [ReceiptController::class, 'index'])->name('
 Route::get('/parking_spaces', [ParkingSpacesController::class, 'parking_spaces'])->name('parking_spaces');
 
 Route::post('/AddParkingSpace', [ParkingSpacesController::class, 'AddParkingSpace'])->name('AddParkingSpace');
+
+Route::delete('/DeleteParkingSpace/{id}', [ParkingSpacesController::class, 'DeleteParkingSpace'])->name('DeleteParkingSpace');
+
+Route::post('/DeleteParkingSpaces', [ParkingSpacesController::class, 'DeleteParkingSpaces'])->name('DeleteParkingSpaces');
+
+Route::post('/updateSpace', [ParkingSpacesController::class, 'updateSpace'])->name('updateSpace');
