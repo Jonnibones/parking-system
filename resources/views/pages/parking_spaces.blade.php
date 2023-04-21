@@ -78,7 +78,7 @@
 
             <div style="height:40px;" class="mt-4 mb-4"><!-- spacement --></div>
 
-            <div style="padding: 20px;" class="container-fluid">
+            <div class="container-fluid">
                 <!-- Table -->
                 <h4>Vagas</h4>
                 <div style="overflow-x: scroll; overflow-y:scroll; height:400px;" id="div_table" class="container">
