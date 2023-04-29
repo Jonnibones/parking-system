@@ -19,9 +19,14 @@
 <script>
     //Datatables initialisation 
     $(document).ready(function() {
-        $('#tb_parking_spaces').DataTable({
+        $('#tb_customers').DataTable({
             paginate:false,
         });
+    });
+
+    //Máscara de input
+    $(document).ready(function(){
+      $('#inp_phone_number').mask('(00) 00000-0000');
     });
 </script>
 
@@ -32,12 +37,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Gerenciar vagas</h1>
+                    <h1 class="m-0">Gerenciar clientes</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Gerenciar vagas</li>
+                        <li class="breadcrumb-item active">Gerenciar clientes</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -57,52 +62,75 @@
             <!-- Small boxes (Stat box) -->
             <!-- Form-->
 
-            <h4>Adicionar vagas</h4>
+            <h4>Adicionar cliente</h4>
             <div class="container">
 
-                <div style="margin-bottom: 30px;" class="row">
-                    <div class="col col-md-2">
-                        <label for="">N° de vagas</label>
-                        <input class="form-control" id="InpNumberSpaces" type="number" min="1">
-                    </div>
-                </div>
-
-                <form action="{{ route('AddParkingSpace') }}"  method="post">
+                <form action="#"  method="post">
                     @csrf
-                    <span id="FormParkingSpaces">
-
-                    </span>
+                    <div style="margin-bottom: 30px;" class="row">
+                        <div class="col col-md-4">
+                            <label for="">Nome</label>
+                            <input class="form-control" name="name" type="text">
+                        </div>
+                        <div class="col col-md-4">
+                            <label for="">N° habilitação</label>
+                            <input class="form-control" name="driving_license_number" type="text">
+                        </div>
+                        <div class="col col-md-4">
+                            <label for="">E-mail</label>
+                            <input class="form-control" name="email" type="email">
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 30px;" class="row">
+                        <div class="col col-md-6">
+                            <label for="">N° Telefone/Celular</label>
+                            <input class="form-control" name="phone" id="inp_phone_number" type="text">
+                        </div>
+                        <div class="col col-md-6">
+                            <label for="">Endereço</label>
+                            <textarea class="form-control" name="address" id="" cols="30" rows="5"></textarea>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <input class="btn btn-primary float-right" value="Adicionar cliente" id="btn_create_customer" type="submit">
+                    </div>
                 </form>
-                
+
             </div>
 
             <div style="height:40px;" class="mt-4 mb-4"><!-- spacement --></div>
 
             <div class="container-fluid">
                 <!-- Table -->
-                <h4>Vagas</h4>
+                <h4>Clientes</h4>
                 <div style="overflow-x: scroll; overflow-y:scroll; height:400px;" id="div_table" class="container">
-                    <table class="table table-striped" id="tb_parking_spaces">
+                    <table class="table table-striped" id="tb_customers">
                         <thead>
                             <tr>
                                 <th style="text-align: center;">Selecionar</th>
-                                <th style="text-align: center;">ID vaga</th>
-                                <th style="text-align: center;">N° vaga</th>
-                                <th style="text-align: center;">Descrição</th>
+                                <th style="text-align: center;">ID cliente</th>
+                                <th style="text-align: center;">Nome</th>
+                                <th style="text-align: center;">N° habilitação</th>
+                                <th style="text-align: center;">E-mail</th>
+                                <th style="text-align: center;">Contato</th>
+                                <th style="text-align: center;">Endereço</th>
                                 <th style="text-align: center;">Alterar</th>
                                 <th style="text-align: center;">Deletar</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($contents['parking_spaces'] as $space)
+                            @foreach ($contents['customers'] as $customer)
                                 <tr>
-                                    <td style="text-align: center;"><input type="checkbox" data-id="{{ $space->id }}" name="checks" id=""></td>
-                                    <td style="text-align: center;">{{ $space->id }}</td>
-                                    <td style="text-align: center;">{{ $space->parking_space_number }}</td>
-                                    <td name="td_description" style="text-align: center;">{{ $space->description }}</td>
-                                    <td style="text-align: center;"><button class="btn btn-info" name="btns_update" data-id="{{ $space->id }}" type="button">Alterar</button></td>
+                                    <td style="text-align: center;"><input type="checkbox" data-id="{{ $customer->id }}" name="checks" id=""></td>
+                                    <td style="text-align: center;">{{ $customer->id }}</td>
+                                    <td style="text-align: center;">{{ $customer->name }}</td>
+                                    <td style="text-align: center;">{{ $customer->driving_license_number }}</td>
+                                    <td style="text-align: center;">{{ $customer->email }}</td>
+                                    <td style="text-align: center;">{{ $customer->phone }}</td>
+                                    <td style="text-align: center;">{{ $customer->address }}</td>
+                                    <td style="text-align: center;"><button class="btn btn-info" name="btns_update" data-id="{{ $customer->id }}" type="button">Alterar</button></td>
                                     <td style="text-align: center;">
-                                        <form action="{{ route('DeleteParkingSpace', ['id' => $space->id]) }}" method="post">
+                                        <form action="{{ route('DeleteParkingSpace', ['id' => $customer->id]) }}" method="post">
                                             @csrf
                                             @method('DELETE')
                                             <button onclick="return confirm('Tem certeza que deseja deletar esta vaga?')" class="btn btn-danger" type="submit">Deletar</button>
@@ -133,6 +161,7 @@
 </div>
 
 <script>
+    /*
     //MÉTODO RESPONSÁVEL POR DELETAR VAGAS SELECIONADAS
     var btnDeleteAll = document.querySelector("#btnDeleteAll");
     btnDeleteAll.addEventListener("click", function(e){
@@ -278,4 +307,5 @@
             
         });
     });
+    */
 </script>

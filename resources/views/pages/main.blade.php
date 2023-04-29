@@ -32,9 +32,10 @@
               <!-- small box -->
               <div class="small-box bg-info">
                 <div class="inner">
-                  <h3>150</h3>
-
-                  <p>Serviços</p>
+                  <p style="font-weight: bolder; font-size: 25px;">Serviços</p>
+                  <p>Total: {{ $contents['numberServicesFinished'] + $contents['numberServicesInProgress'] }}</p>
+                  <p>Em andamento: {{ $contents['numberServicesInProgress']}}</p>
+                  <p>Finalizados: {{ $contents['numberServicesFinished']}}</p>
                 </div>
                 <div class="icon">
                   <i class="ion-clipboard"></i>
@@ -47,8 +48,10 @@
               <!-- small box -->
               <div class="small-box bg-success">
                 <div class="inner">
-                  <h3>53</h3>
-                  <p>Vagas</p>
+                  <p style="font-weight: bolder; font-size: 25px;">Vagas</p>
+                  <p>Total: {{ count($contents['parking_spaces']) }}</p>
+                  <p>Disponíveis: {{ $contents['number_spaces'] - $contents['numberServicesInProgress'] }}</p>
+                  <p>Ocupadas: {{ $contents['numberServicesInProgress'] }}</p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-model-s"></i>
@@ -609,8 +612,8 @@
         <div style="margin-top:30px; margin-bottom:30px;" class="col-sm-6">
           <h4 class="m-0">Mapa do estacionamento</h4><br>
           <h6>Número de vagas: {{ $contents['number_spaces'] }}</h6>
-          <h6>Número de vagas disponíveis: {{ $contents['number_spaces'] - $contents['number_services']}}</h6>
-          <h6>Número de vagas ocupadas: {{ $contents['number_services'] }}</h6>
+          <h6>Número de vagas disponíveis: {{ $contents['number_spaces'] - $contents['numberServicesInProgress']}}</h6>
+          <h6>Número de vagas ocupadas: {{ $contents['numberServicesInProgress'] }}</h6>
         </div><!-- /.col -->
         
         <div class="container-fluid">

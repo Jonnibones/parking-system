@@ -20,16 +20,19 @@ class MainController extends Controller
             ->groupBy('parking_spaces.id', 'services.driver_name', 'services.service_type', 'parking_spaces.parking_space_number')
             ->get();
 
+            $numberServicesFinished = DB::table('services')
+            ->where('services.status', '=', 'Finalizado')
+            ->count();
 
-
-            $number_services = DB::table('services')
+            $numberServicesInProgress = DB::table('services')
             ->where('services.status', '=', 'Em andamento')
             ->count();
             
             $number_spaces = DB::table('parking_spaces')->count();
 
             $contents = [
-                'number_services' => $number_services,
+                'numberServicesInProgress' => $numberServicesInProgress,
+                'numberServicesFinished' => $numberServicesFinished,
                 'number_spaces' => $number_spaces,
                 'parking_spaces' => $parking_spaces,
                 'view' => 'main',

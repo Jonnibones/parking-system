@@ -66,6 +66,14 @@
           </li>
 
           <!--ITENS ATIVOS DO MENU-->
+          <li class="nav-header">Início</li>
+          <li class="nav-item">
+            <a href="{{route('main')}}" class="nav-link">
+              <i class="{{ request()->segment(1) == 'main' ? 'fas fa-circle nav-icon' : 'far fa-circle nav-icon' }}"></i>
+              <p>Página inicial</p>
+            </a>
+          </li>
+
           <li class="nav-header">Menu</li>
           <li class="nav-item">
             <a href="#" class="nav-link">
@@ -124,8 +132,8 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/charts/chartjs.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                <a href="{{route('customers')}}" class="nav-link">
+                  <i class="{{ request()->segment(1) == 'customers' ? 'fas fa-circle nav-icon' : 'far fa-circle nav-icon' }}"></i>
                   <p>Gerenciar clientes</p>
                 </a>
               </li>
