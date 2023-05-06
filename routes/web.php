@@ -48,3 +48,7 @@ Route::post('/DeleteParkingSpaces', [ParkingSpacesController::class, 'DeletePark
 Route::post('/updateSpace', [ParkingSpacesController::class, 'updateSpace'])->name('updateSpace');
 
 Route::get('/customers', [CustomersController::class, 'index'])->name('customers');
+Route::post('/AddCustomer', [CustomersController::class, 'AddCustomer'])->name('AddCustomer');
+Route::delete('/DeleteCustomer/{id}', [CustomersController::class, 'DeleteCustomer'])->name('DeleteCustomer');
+Route::post('/DeleteCustomers', [CustomersController::class, 'DeleteCustomers'])->name('DeleteCustomers');
+Route::post('/updateCustomer', [CustomersController::class, 'updateCustomer'])->name('updateCustomer');

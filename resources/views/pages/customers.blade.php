@@ -65,26 +65,26 @@
             <h4>Adicionar cliente</h4>
             <div class="container">
 
-                <form action="#"  method="post">
+                <form action="{{ route('AddCustomer') }}"  method="post">
                     @csrf
                     <div style="margin-bottom: 30px;" class="row">
                         <div class="col col-md-4">
                             <label for="">Nome</label>
-                            <input class="form-control" name="name" type="text">
+                            <input required class="form-control" name="name" type="text">
                         </div>
                         <div class="col col-md-4">
                             <label for="">N° habilitação</label>
-                            <input class="form-control" name="driving_license_number" type="text">
+                            <input required class="form-control" name="driving_license_number" type="text">
                         </div>
                         <div class="col col-md-4">
                             <label for="">E-mail</label>
-                            <input class="form-control" name="email" type="email">
+                            <input required class="form-control" name="email" type="email">
                         </div>
                     </div>
                     <div style="margin-bottom: 30px;" class="row">
                         <div class="col col-md-6">
                             <label for="">N° Telefone/Celular</label>
-                            <input class="form-control" name="phone" id="inp_phone_number" type="text">
+                            <input required class="form-control" name="phone" id="inp_phone_number" type="text">
                         </div>
                         <div class="col col-md-6">
                             <label for="">Endereço</label>
@@ -92,7 +92,9 @@
                         </div>
                     </div>
                     <div style="margin-top: 20px;">
-                        <input class="btn btn-primary float-right" value="Adicionar cliente" id="btn_create_customer" type="submit">
+                        <input onclick="return confirm('Tem certeza que deseja adicionar este cliente?')" 
+                        class="btn btn-primary float-right" value="Adicionar cliente" id="btn_create_customer" 
+                        type="submit">
                     </div>
                 </form>
 
@@ -123,17 +125,17 @@
                                 <tr>
                                     <td style="text-align: center;"><input type="checkbox" data-id="{{ $customer->id }}" name="checks" id=""></td>
                                     <td style="text-align: center;">{{ $customer->id }}</td>
-                                    <td style="text-align: center;">{{ $customer->name }}</td>
-                                    <td style="text-align: center;">{{ $customer->driving_license_number }}</td>
-                                    <td style="text-align: center;">{{ $customer->email }}</td>
-                                    <td style="text-align: center;">{{ $customer->phone }}</td>
-                                    <td style="text-align: center;">{{ $customer->address }}</td>
+                                    <td name="td_name" style="text-align: center;">{{ $customer->name }}</td>
+                                    <td name="td_license" style="text-align: center;">{{ $customer->driving_license_number }}</td>
+                                    <td name="td_email" style="text-align: center;">{{ $customer->email }}</td>
+                                    <td name="td_phone" style="text-align: center;">{{ $customer->phone }}</td>
+                                    <td name="td_address" style="text-align: center;">{{ $customer->address }}</td>
                                     <td style="text-align: center;"><button class="btn btn-info" name="btns_update" data-id="{{ $customer->id }}" type="button">Alterar</button></td>
                                     <td style="text-align: center;">
-                                        <form action="{{ route('DeleteParkingSpace', ['id' => $customer->id]) }}" method="post">
+                                        <form action="{{ route('DeleteCustomer', ['id' => $customer->id]) }}" method="post">
                                             @csrf
                                             @method('DELETE')
-                                            <button onclick="return confirm('Tem certeza que deseja deletar esta vaga?')" class="btn btn-danger" type="submit">Deletar</button>
+                                            <button onclick="return confirm('Tem certeza que deseja deletar este cliente?')" class="btn btn-danger" type="submit">Deletar</button>
                                         </form>
                                     </td>
                                 </tr>
@@ -148,10 +150,10 @@
                 </div>
 
                 <div style="margin-top: 20px; margin-bottom: 20px;">
-                    <form action="{{ route('DeleteParkingSpaces') }}" method="post">
+                    <form action="{{ route('DeleteCustomers') }}" method="post">
                         @csrf
                         <button id="btnDeleteAll"  class="btn btn-primary float-right" type="submit">Deletar selecionados</button>
-                        <input type="hidden" name="values" id="space_ids">
+                        <input type="hidden" name="values" id="customers_ids">
                     </form>
                 </div>
 
@@ -161,29 +163,91 @@
 </div>
 
 <script>
-    /*
-    //MÉTODO RESPONSÁVEL POR DELETAR VAGAS SELECIONADAS
-    var btnDeleteAll = document.querySelector("#btnDeleteAll");
-    btnDeleteAll.addEventListener("click", function(e){
-        if(confirm('Tem certeza que deseja deletar as vagas selecionadas?')){
-            let checks = document.querySelectorAll("input[name='checks']");
-            let space_ids = document.querySelector("#space_ids");
-            space_ids.value = '';
-            let i = 0;
-            checks.forEach(function(check){
-                if(check.checked == true){
-                    space_ids.value += check.dataset.id+',';
-                    i++;
+
+    //MÉTODO RESPONSÁVEL POR ALTERAR OS DADOS DO CLIENTE
+    var btns_update = document.querySelectorAll("button[name='btns_update']");
+    let last_value_name;
+    let last_value_license;
+    let last_value_email;
+    let last_value_phone;
+    let last_value_address;
+    btns_update.forEach(function(btn){
+        btn.addEventListener('click', function(){
+            let tr = btn.parentElement.parentElement;
+            let td_name = tr.querySelector("td[name='td_name']");
+            let td_license = tr.querySelector("td[name='td_license']");
+            let td_email = tr.querySelector("td[name='td_email']");
+            let td_phone = tr.querySelector("td[name='td_phone']");
+            let td_address = tr.querySelector("td[name='td_address']");
+            
+            if(td_name.childElementCount == 0){
+
+                last_value_name = td_name.innerHTML;
+                last_value_license = td_license.innerHTML;
+                last_value_email = td_email.innerHTML;
+                last_value_phone = td_phone.innerHTML;
+                last_value_address = td_address.innerHTML;
+
+                td_name.innerHTML = '<input type="text" value="'+last_value_name+'" class="form-control">';
+                td_license.innerHTML = '<input type="text" value="'+last_value_license+'" class="form-control">';
+                td_email.innerHTML = '<input type="email" value="'+last_value_email+'" class="form-control">';
+                td_phone.innerHTML = '<input type="text" value="'+last_value_phone+'" class="form-control">';
+                td_address.innerHTML = '<input type="text" value="'+last_value_address+'" class="form-control">';
+
+                btn.innerText = 'Confirmar alteração';                
+            }else{
+                if(confirm('Tem ceteza que deseja alterar a descrição deste cliente?')){
+                    let id_customer = btn.dataset.id;
+                    let name = td_name.children[0].value;
+                    let license = td_license.children[0].value;
+                    let email = td_email.children[0].value;
+                    let phone = td_phone.children[0].value;
+                    let address = td_address.children[0].value;
+
+                    var csrf_token = $('meta[name="csrf-token"]').attr('content');
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': csrf_token
+                        }
+                    });
+
+                    $.post(
+                        "{{ route('updateCustomer') }}", {
+                            id_customer: id_customer,
+                            name: name,
+                            license: license,
+                            email: email,
+                            phone: phone,
+                            address: address
+                        },
+                        function(data) {
+                            if(data){
+                                td_name.innerHTML = td_name.children[0].value;
+                                td_license.innerHTML = td_license.children[0].value;
+                                td_email.innerHTML = td_email.children[0].value;
+                                td_phone.innerHTML = td_phone.children[0].value;
+                                td_address.innerHTML = td_address.children[0].value;
+                                alert('Dados alterados'); 
+                                btn.innerText = 'Alterar';
+                            }else{
+                                alert('Não alterado');
+                            }
+                            
+                    });
+                }else{
+                    td_name.innerHTML = last_value_name;
+                    td_license.innerHTML = last_value_license;
+                    td_email.innerHTML = last_value_email;
+                    td_phone.innerHTML = last_value_phone;
+                    td_address.innerHTML = last_value_address;
+                    btn.innerText = 'Alterar';
                 }
-            });
-            if(i == 0){
-                alert("Selecione pelo menos uma vaga");
-                e.preventDefault();
             }
-        }else{
-            e.preventDefault();
-        }
+            
+            
+        });
     });
+    
 
     //MÉTODO RESPONSÁVEL POR MARCAR/DESMARCAR CHECKBOXES
     var checkAll = document.querySelector("#checkAll");
@@ -202,110 +266,30 @@
         }
     });
 
-    //MÉTODOS RESPONSÁVEIS POR CRIAR CAMPOS DE ACORDO COM O NÚMERO INFORMADO 
-    var InpNumberSpaces = document.getElementById('InpNumberSpaces');
-    InpNumberSpaces.addEventListener('keyup', function(e){
-        let number = e.target.value;
-        let FormParkingSpaces = document.getElementById('FormParkingSpaces');
-
-        FormParkingSpaces.innerHTML = '';
-
-        for(let i = 1; i <= number; i++){
-            FormParkingSpaces.innerHTML += '<h6>Vaga '+i+'</h6>'+
-                                            '<div class="row">'+
-                                                '<div class="col col-md-2">'+
-                                                    '<label for="">N° vaga</label>'+
-                                                    '<input required name="parking_space_number'+i+'" class="form-control" type="number">'+
-                                                '</div>'+
-                                                '<div class="col col-md-6">'+
-                                                    '<label for="">Descrição</label>'+
-                                                    '<input required name="description'+i+'" class="form-control" type="text">'+
-                                                '</div>'+
-                                            '</div>';
-        }
-        if(FormParkingSpaces.innerHTML != ''){
-            FormParkingSpaces.innerHTML +=  '<input type="hidden" name="number_spaces" value="'+number+'">'+
-                                            '<div style="margin-top: 20px;">'+
-                                                '<input class="btn btn-primary float-right" value="Adicionar vagas" id="btn_create_service" type="submit">'+
-                                            '</div>';
-        }
-         
-    });
-    InpNumberSpaces.addEventListener('change', function(e){
-        let number = e.target.value;
-        let FormParkingSpaces = document.getElementById('FormParkingSpaces');
-
-        FormParkingSpaces.innerHTML = '';
-
-        for(let i = 1; i <= number; i++){
-            FormParkingSpaces.innerHTML += '<h6>Vaga '+i+'</h6>'+
-                                            '<div class="row">'+
-                                                '<div class="col col-md-2">'+
-                                                    '<label for="">N° vaga</label>'+
-                                                    '<input required name="parking_space_number'+i+'" class="form-control" type="number">'+
-                                                '</div>'+
-                                                '<div class="col col-md-6">'+
-                                                    '<label for="">Descrição</label>'+
-                                                    '<input required name="description'+i+'" class="form-control" type="text">'+
-                                                '</div>'+
-                                            '</div>';
-        }
-        if(FormParkingSpaces.innerHTML != ''){
-            FormParkingSpaces.innerHTML +=  '<input type="hidden" name="number_spaces" value="'+number+'">'+
-                                            '<div style="margin-top: 20px;">'+
-                                                '<input class="btn btn-primary float-right" value="Adicionar vagas" id="btn_create_service" type="submit">'+
-                                            '</div>';
-        }
-         
-    });
-
-    //MÉTODO RESPONSÁVEL POR ALTERAR A DESCRIÇÃO DA VAGA
-    var btns_update = document.querySelectorAll("button[name='btns_update']");
-    let last_value;
-    btns_update.forEach(function(btn){
-        btn.addEventListener('click', function(){
-            let tr = btn.parentElement.parentElement;
-            let td_description = tr.querySelector("td[name='td_description']");
-            
-            if(td_description.childElementCount == 0){
-                last_value = td_description.innerHTML;
-                td_description.innerHTML = '<input type="text" value="'+last_value+'" class="form-control">';
-                btn.innerText = 'Confirmar alteração';                
-            }else{
-                if(confirm('Tem ceteza que deseja alterar a descrição desta vaga?')){
-                    let id_space = btn.dataset.id;
-                    let description = td_description.children[0].value;
-
-                    var csrf_token = $('meta[name="csrf-token"]').attr('content');
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': csrf_token
-                        }
-                    });
-
-                    $.post(
-                        "{{ route('updateSpace') }}", {
-                            id_space: id_space,
-                            description: description
-                        },
-                        function(data) {
-                            if(data){
-                                td_description.innerHTML = td_description.children[0].value;
-                                alert('Descrição alterada'); 
-                                btn.innerText = 'Alterar';
-                            }else{
-                                alert('Não alterado');
-                            }
-                            
-                    });
-                }else{
-                    td_description.innerHTML = last_value;
-                    btn.innerText = 'Alterar';
+    
+    //MÉTODO RESPONSÁVEL POR DELETAR CLIENTES SELECIONADOS
+    var btnDeleteAll = document.querySelector("#btnDeleteAll");
+    btnDeleteAll.addEventListener("click", function(e){
+        if(confirm('Tem certeza que deseja deletar os clientes selecionados?')){
+            let checks = document.querySelectorAll("input[name='checks']");
+            let customers_ids = document.querySelector("#customers_ids");
+            customers_ids.value = '';
+            let i = 0;
+            checks.forEach(function(check){
+                if(check.checked == true){
+                    customers_ids.value += check.dataset.id+',';
+                    i++;
                 }
+            });
+            if(i == 0){
+                alert("Selecione pelo menos um cliente");
+                e.preventDefault();
             }
-            
-            
-        });
+        }else{
+            e.preventDefault();
+        }
     });
-    */
+
+    
+    
 </script>

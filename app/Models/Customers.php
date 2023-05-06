@@ -11,6 +11,7 @@ class Customers extends Model
 
     protected $fillable = [
         'name',
+        'driving_license_number',
         'email',
         'phone',
         'address',
