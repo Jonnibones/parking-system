@@ -62,11 +62,10 @@
             <!-- Small boxes (Stat box) -->
             <!-- Form-->
 
-            <h4>Adicionar cliente</h4>
-            <div class="container">
-
-                <form action="{{ route('AddCustomer') }}"  method="post">
-                    @csrf
+            <form action="{{ route('AddCustomer') }}"  method="post">
+                @csrf
+                <h4>Cliente</h4>
+                <div class="container-fluid" style="margin-bottom: 80px;">
                     <div style="margin-bottom: 30px;" class="row">
                         <div class="col col-md-4">
                             <label for="">Nome</label>
@@ -91,20 +90,44 @@
                             <textarea class="form-control" name="address" id="" cols="30" rows="5"></textarea>
                         </div>
                     </div>
-                    <div style="margin-top: 20px;">
-                        <input onclick="return confirm('Tem certeza que deseja adicionar este cliente?')" 
-                        class="btn btn-primary float-right" value="Adicionar cliente" id="btn_create_customer" 
-                        type="submit">
-                    </div>
-                </form>
+                        
+                    
 
-            </div>
+                </div>
+
+                <h4>Veículo</h4>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col col-md-3">
+                            <label for="">Placa</label>
+                            <input class="form-control" name="license_plate_number" id="license_plate_number" type="text">
+                        </div>
+                        <div class="col col-md-3">
+                            <label for="">Marca</label>
+                            <input class="form-control" name="brand" id="brand">
+                        </div>
+                        <div class="col col-md-3">
+                            <label for="">Modelo</label>
+                            <input class="form-control" name="model" id="model">
+                        </div>
+                        <div class="col col-md-3">
+                            <label for="">Cor</label>
+                            <input class="form-control" name="color" id="color">
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 20px;">
+                    <input onclick="return confirm('Tem certeza que deseja adicionar este cliente?')" 
+                    class="btn btn-primary float-right" value="Adicionar cliente" id="btn_create_customer" 
+                    type="submit">
+                </div>                                  
+            </form>
 
             <div style="height:40px;" class="mt-4 mb-4"><!-- spacement --></div>
 
             <div class="container-fluid">
                 <!-- Table -->
-                <h4>Clientes</h4>
+                <h4>Lista de clientes</h4>
                 <div style="overflow-x: scroll; overflow-y:scroll; height:400px;" id="div_table" class="container">
                     <table class="table table-striped" id="tb_customers">
                         <thead>
@@ -116,6 +139,7 @@
                                 <th style="text-align: center;">E-mail</th>
                                 <th style="text-align: center;">Contato</th>
                                 <th style="text-align: center;">Endereço</th>
+                                <th style="text-align: center;">Veículos</th>
                                 <th style="text-align: center;">Alterar</th>
                                 <th style="text-align: center;">Deletar</th>
                             </tr>
@@ -123,16 +147,32 @@
                         <tbody>
                             @foreach ($contents['customers'] as $customer)
                                 <tr>
-                                    <td style="text-align: center;"><input type="checkbox" data-id="{{ $customer->id }}" name="checks" id=""></td>
-                                    <td style="text-align: center;">{{ $customer->id }}</td>
-                                    <td name="td_name" style="text-align: center;">{{ $customer->name }}</td>
-                                    <td name="td_license" style="text-align: center;">{{ $customer->driving_license_number }}</td>
-                                    <td name="td_email" style="text-align: center;">{{ $customer->email }}</td>
-                                    <td name="td_phone" style="text-align: center;">{{ $customer->phone }}</td>
-                                    <td name="td_address" style="text-align: center;">{{ $customer->address }}</td>
-                                    <td style="text-align: center;"><button class="btn btn-info" name="btns_update" data-id="{{ $customer->id }}" type="button">Alterar</button></td>
+                                    <td style="text-align: center;"><input type="checkbox" data-id="{{ $customer['id'] }}" name="checks" id=""></td>
+                                    <td style="text-align: center;">{{ $customer['id'] }}</td>
+                                    <td name="td_name" style="text-align: center;">{{ $customer['name'] }}</td>
+                                    <td name="td_license" style="text-align: center;">{{ $customer['driving_license_number'] }}</td>
+                                    <td name="td_email" style="text-align: center;">{{ $customer['email'] }}</td>
+                                    <td name="td_phone" style="text-align: center;">{{ $customer['phone'] }}</td>
+                                    <td name="td_address" style="text-align: center;">{{ $customer['address'] }}</td>
+                                    <td name="td_vehicles" style="text-align: center;">
+                                        <details>
+                                            <summary style="cursor:pointer; color:blue;">Ver veículos</summary>
+                                            <ul class="list-group">
+                                                @if (isset($customer['vehicles'][0]))
+                                                    @foreach ($customer['vehicles'] as $vehicle)
+                                                        <li class="list-group-item"> <small>{{$vehicle['model']}}</small></li>
+                                                    @endforeach
+                                                @else
+                                                   <small>{{'Cliente sem veículos'}}</small> 
+                                                @endif
+                                            </ul>
+                                            <small style="cursor:pointer; color:blue;"><a href="{{route('customers_vehicles', ['id' => $customer["id"]])}}">Adicionar um veículo à este cliente</a></small>
+                                        </details>
+                                        
+                                    </td>
+                                    <td style="text-align: center;"><button class="btn btn-info" name="btns_update" data-id="{{ $customer['id'] }}" type="button">Alterar</button></td>
                                     <td style="text-align: center;">
-                                        <form action="{{ route('DeleteCustomer', ['id' => $customer->id]) }}" method="post">
+                                        <form action="{{ route('DeleteCustomer', ['id' => $customer['id']]) }}" method="post">
                                             @csrf
                                             @method('DELETE')
                                             <button onclick="return confirm('Tem certeza que deseja deletar este cliente?')" class="btn btn-danger" type="submit">Deletar</button>

@@ -51,4 +51,7 @@ Route::get('/customers', [CustomersController::class, 'index'])->name('customers
 Route::post('/AddCustomer', [CustomersController::class, 'AddCustomer'])->name('AddCustomer');
 Route::delete('/DeleteCustomer/{id}', [CustomersController::class, 'DeleteCustomer'])->name('DeleteCustomer');
 Route::post('/DeleteCustomers', [CustomersController::class, 'DeleteCustomers'])->name('DeleteCustomers');
-Route::post('/updateCustomer', [CustomersController::class, 'updateCustomer'])->name('updateCustomer');
+Route::post('/updateCustomer', [CustomersController::class, 'updateCustomer'])->name('updateCustomer'); 
+Route::get('/customers_vehicles/{id?}', [CustomersController::class, 'customers_vehicles'])->name('customers_vehicles');
+Route::delete('/DeleteVehicle/{id}', [CustomersController::class, 'DeleteVehicle'])->name('DeleteVehicle');
+Route::post('/DeleteVehicles', [CustomersController::class, 'DeleteVehicles'])->name('DeleteVehicles');

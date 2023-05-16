@@ -138,8 +138,8 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/charts/flot.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                <a href="{{route('customers_vehicles')}}" class="nav-link">
+                  <i class="{{ request()->segment(1) == 'customers_vehicles' ? 'fas fa-circle nav-icon' : 'far fa-circle nav-icon' }}"></i>
                   <p>Gerenciar veículos clientes</p>
                 </a>
               </li>
