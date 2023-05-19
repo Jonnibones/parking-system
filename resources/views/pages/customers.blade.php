@@ -58,7 +58,7 @@
     <section class="content">
 
 
-        <div style="padding: 20px;" class="container-fluid">
+        <div style="padding: 20px; margin-bottom: 20px;" class="container-fluid">
             <!-- Small boxes (Stat box) -->
             <!-- Form-->
 
@@ -182,8 +182,8 @@
                             @endforeach
                         </tbody>
                     </table>
-                </div>
 
+                </div>
                 <div style="margin-top: 20px;">
                     <label for="">Marcar todos</label>
                     <input type="checkbox" name="" id="checkAll">
@@ -196,8 +196,8 @@
                         <input type="hidden" name="values" id="customers_ids">
                     </form>
                 </div>
-
             </div>
+        </div>
     </section>
     
 </div>

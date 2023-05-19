@@ -55,3 +55,4 @@ Route::post('/updateCustomer', [CustomersController::class, 'updateCustomer'])->
 Route::get('/customers_vehicles/{id?}', [CustomersController::class, 'customers_vehicles'])->name('customers_vehicles');
 Route::delete('/DeleteVehicle/{id}', [CustomersController::class, 'DeleteVehicle'])->name('DeleteVehicle');
 Route::post('/DeleteVehicles', [CustomersController::class, 'DeleteVehicles'])->name('DeleteVehicles');
+Route::post('/updateVehicle', [CustomersController::class, 'updateVehicle'])->name('updateVehicle'); 

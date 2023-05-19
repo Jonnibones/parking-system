@@ -159,18 +159,22 @@ class CustomersController extends Controller
             ->leftJoin('customers', 'customers.id', '=', 'customer_vehicles.id_customer')
             ->get();
 
-            //die(var_dump($vehicles));
-
             $customer = DB::table('customers')
             ->select('customers.*')
             ->where('customers.id', $id)
             ->orderBy('customers.name', 'asc')
             ->first();
 
+            $customers = DB::table('customers')
+                ->select('customers.*')
+                ->orderBy('customers.name', 'asc')
+                ->get();
+
             $contents = [
                 'view' => 'customers_vehicles',
                 'vehicles' => $vehicles,
                 'customer' => $customer,
+                'customers' => $customers,
                 'id' => $id
             ];
             return view('master', compact('contents'));
@@ -206,4 +210,31 @@ class CustomersController extends Controller
             return redirect()->action([AdminController::class, 'logout']);
         }
     } 
+
+    public function updateVehicle(Request $request){
+        if(session()->has('user')){
+            $validatedData = $request->validate([
+                'id_vehicle' => 'required|integer',
+                'model' => 'required|string',
+                'brand' => 'required|string',
+                'color' => 'required|string',
+                'plate' => 'required|string',
+            ]);
+        
+            
+            $data = DB::table('customer_vehicles')
+            ->where('id', $validatedData['id_vehicle'])
+            ->update([
+                'model' => $validatedData['model'],
+                'brand' => $validatedData['brand'],
+                'color' => $validatedData['color'],
+                'license_plate_number' => $validatedData['plate'],
+            ]);
+
+            return response()->json($data);
+        }else{
+            // Redireciona o usuário para outra view
+            return redirect()->action([AdminController::class, 'logout']);
+        }
+    }
 }
