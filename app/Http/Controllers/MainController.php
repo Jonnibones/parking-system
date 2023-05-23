@@ -12,12 +12,13 @@ class MainController extends Controller
         if(session()->has('user')){
 
             $parking_spaces = DB::table('parking_spaces')
-            ->leftJoin('services', 'parking_spaces.id', '=', 'services.id_parking_space', 'services.driver_name')
-            ->select('parking_spaces.parking_space_number', DB::raw('MAX(services.service_type) AS service_type'), 
-            DB::raw('MAX(services.driver_name) AS driver_name'), 'parking_spaces.status')
-            ->orderBy('parking_spaces.parking_space_number')
-            ->groupBy('parking_spaces.id')
-            ->get();
+    ->leftJoin('services', 'parking_spaces.id', '=', 'services.id_parking_space')
+    ->select('parking_spaces.parking_space_number', DB::raw('MAX(services.service_type) AS service_type'), 
+        DB::raw('MAX(services.driver_name) AS driver_name'), 'parking_spaces.status')
+    ->orderBy('parking_spaces.parking_space_number')
+    ->groupBy('parking_spaces.parking_space_number', 'parking_spaces.status')
+    ->get();
+
 
             $numberServicesFinished = DB::table('services')
             ->where('services.status', '=', 'Finalizado')
