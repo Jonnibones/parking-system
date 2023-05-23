@@ -12,12 +12,11 @@ class MainController extends Controller
         if(session()->has('user')){
 
             $parking_spaces = DB::table('parking_spaces')
-            ->leftJoin('services','parking_spaces.id', '=', 'services.id_parking_space')
-            ->select('parking_spaces.parking_space_number', 
-            DB::raw('max(CASE WHEN services.status = "Em andamento" THEN "Em andamento" ELSE NULL END) AS ocuppied'), 'services.driver_name'
-            , 'services.service_type')
+            ->leftJoin('services', 'parking_spaces.id', '=', 'services.id_parking_space', 'services.driver_name')
+            ->select('parking_spaces.parking_space_number', DB::raw('MAX(services.service_type) AS service_type'), 
+            DB::raw('MAX(services.driver_name) AS driver_name'), 'parking_spaces.status')
             ->orderBy('parking_spaces.parking_space_number')
-            ->groupBy('parking_spaces.id', 'services.driver_name', 'services.service_type', 'parking_spaces.parking_space_number')
+            ->groupBy('parking_spaces.id')
             ->get();
 
             $numberServicesFinished = DB::table('services')
@@ -27,14 +26,36 @@ class MainController extends Controller
             $numberServicesInProgress = DB::table('services')
             ->where('services.status', '=', 'Em andamento')
             ->count();
-            
+
+            $numberSpacesOccupied = DB::table('parking_spaces')
+            ->where(function($query){
+                $query->where('status', 'Ocupado')
+                ->orWhere('status', 'Reservado');
+            })->count();
             $number_spaces = DB::table('parking_spaces')->count();
 
+            $numberCustomers = DB::table('customers')
+            ->count();
+
+            $numberReservations = DB::table('reservations')
+            ->count();
+            $numberActiveReservations = DB::table('reservations')
+            ->where('active', '=', '1' )
+            ->count();
+            $numberNoActiveReservations = DB::table('reservations')
+            ->where('active', '=', '0' )
+            ->count();
+
             $contents = [
+                'numberSpacesOccupied' => $numberSpacesOccupied,
                 'numberServicesInProgress' => $numberServicesInProgress,
                 'numberServicesFinished' => $numberServicesFinished,
                 'number_spaces' => $number_spaces,
                 'parking_spaces' => $parking_spaces,
+                'numberCustomers' => $numberCustomers,
+                'numberReservations' => $numberReservations,
+                'numberActiveReservations' => $numberActiveReservations,
+                'numberNoActiveReservations' => $numberNoActiveReservations,
                 'view' => 'main',
             ];
             return view('master', compact('contents'));

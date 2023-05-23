@@ -140,6 +140,7 @@ class CustomersController extends Controller
                 'email' => $validatedData['email'],
                 'phone' => $validatedData['phone'],
                 'address' => $validatedData['address'],
+                'updated_at' =>  date("Y-m-d H:i:s")
             ]);
 
             return response()->json($data);
@@ -229,6 +230,7 @@ class CustomersController extends Controller
                 'brand' => $validatedData['brand'],
                 'color' => $validatedData['color'],
                 'license_plate_number' => $validatedData['plate'],
+                'updated_at' =>  date("Y-m-d H:i:s")
             ]);
 
             return response()->json($data);

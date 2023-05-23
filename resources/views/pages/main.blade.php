@@ -40,7 +40,7 @@
                 <div class="icon">
                   <i class="ion-clipboard"></i>
                 </div>
-                <a href="#" class="small-box-footer">Acessar <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('services') }}" class="small-box-footer">Acessar <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
             <!-- ./col -->
@@ -49,14 +49,14 @@
               <div class="small-box bg-success">
                 <div class="inner">
                   <p style="font-weight: bolder; font-size: 25px;">Vagas</p>
-                  <p>Total: {{ count($contents['parking_spaces']) }}</p>
-                  <p>Disponíveis: {{ $contents['number_spaces'] - $contents['numberServicesInProgress'] }}</p>
-                  <p>Ocupadas: {{ $contents['numberServicesInProgress'] }}</p>
+                  <p>Total: {{ $contents['number_spaces'] }}</p>
+                  <p>Disponíveis: {{ $contents['number_spaces'] - $contents['numberSpacesOccupied'] }}</p>
+                  <p>Ocupadas/reservadas: {{ $contents['numberSpacesOccupied'] }}</p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-model-s"></i>
                 </div>
-                <a href="#" class="small-box-footer">Acessar <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('parking_spaces') }}" class="small-box-footer">Acessar <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
             <!-- ./col -->
@@ -64,29 +64,30 @@
               <!-- small box -->
               <div class="small-box bg-warning">
                 <div class="inner">
-                  <h3>44</h3>
-
-                  <p>Clientes</p>
+                  <p style="font-weight: bolder; font-size: 30px;">Clientes</p>
+                  <p>Total: {{ $contents['numberCustomers'] }}</p>
+                  <br><br><br>
                 </div>
                 <div class="icon">
-                  <i class="ion-ios-people-outline"></i>
+                  <i class="ion ion-android-people"></i>
                 </div>
-                <a href="#" class="small-box-footer">Acessar<i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('customers') }}" class="small-box-footer">Acessar <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
-            <!-- ./col -->
+            <!-- ./col ion-compose -->
             <div class="col-lg-3 col-6">
               <!-- small box -->
               <div class="small-box bg-danger">
                 <div class="inner">
-                  <h3>65</h3>
-
-                  <p>Reservas</p>
+                  <p style="font-weight: bolder; font-size: 25px;">Reservas</p>
+                  <p>Total: {{ $contents['numberReservations'] }}</p>
+                  <p>Ativas: {{ $contents['numberActiveReservations'] }}</p>
+                  <p>Não ativas: {{ $contents['numberNoActiveReservations'] }}</p>
                 </div>
                 <div class="icon">
-                  <i class="ion-compose"></i>
+                  <i class="ion ion-compose"></i>
                 </div>
-                <a href="#" class="small-box-footer">Acessar <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="{{ route('reservations') }}" class="small-box-footer">Acessar <i class="fas fa-arrow-circle-right"></i></a>
               </div>
             </div>
             <!-- ./col -->
@@ -612,18 +613,23 @@
         <div style="margin-top:30px; margin-bottom:30px;" class="col-sm-6">
           <h4 class="m-0">Mapa do estacionamento</h4><br>
           <h6>Número de vagas: {{ $contents['number_spaces'] }}</h6>
-          <h6>Número de vagas disponíveis: {{ $contents['number_spaces'] - $contents['numberServicesInProgress']}}</h6>
-          <h6>Número de vagas ocupadas: {{ $contents['numberServicesInProgress'] }}</h6>
+          <h6>Número de vagas disponíveis: {{ $contents['number_spaces'] - $contents['numberSpacesOccupied']}}</h6>
+          <h6>Número de vagas ocupadas/reservadas: {{ $contents['numberSpacesOccupied'] }}</h6>
         </div><!-- /.col -->
         
         <div class="container-fluid">
           <!-- Small boxes (Stat box) -->
           <div style="overflow-x: scroll; overflow-y:scroll; height:400px;  display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(4, 1fr); grid-gap: 10px;" class="row">
             @foreach ($contents['parking_spaces'] as $spaces)
-              @if ($spaces->ocuppied && $spaces->ocuppied == 'Em andamento')
+              @if ($spaces->status && $spaces->status == 'Ocupado')
                 <div style="text-align:center;" class="icon">
                   <i style="color:rgb(199, 45, 18); font-size: 50px;" title="Cliente: {{ $spaces->driver_name }} - Tipo serviço: {{ $spaces->service_type }}" class="ion-android-car"></i><br>
                   <small >Vaga: {{ $spaces->parking_space_number }} - Ocupada</small>
+                </div>
+              @elseif($spaces->status && $spaces->status == 'Reservado')
+                <div style="text-align:center;" class="icon">
+                  <i style="color:rgb(199, 127, 18); font-size: 50px;" title="Reservada" class="ion-clock"></i><br>
+                  <small >Vaga: {{ $spaces->parking_space_number }} - Reservada</small>
                 </div>
               @else
                 <div style="text-align:center;" class="icon">

@@ -69,7 +69,8 @@ class ParkingSpacesController extends Controller
             $data = DB::table('parking_spaces')
             ->where('id', $validatedData['id_space'])
             ->update([
-                'description' => $validatedData['description']
+                'description' => $validatedData['description'],
+                'updated_at' =>  date("Y-m-d H:i:s")
             ]);
 
             return response()->json($data);

@@ -6,6 +6,8 @@ use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ParkingSpacesController;
 use App\Http\Controllers\CustomersController;
+use App\Http\Controllers\ReservationsController;
+use App\Http\Controllers\ReportsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -56,3 +58,10 @@ Route::get('/customers_vehicles/{id?}', [CustomersController::class, 'customers_
 Route::delete('/DeleteVehicle/{id}', [CustomersController::class, 'DeleteVehicle'])->name('DeleteVehicle');
 Route::post('/DeleteVehicles', [CustomersController::class, 'DeleteVehicles'])->name('DeleteVehicles');
 Route::post('/updateVehicle', [CustomersController::class, 'updateVehicle'])->name('updateVehicle'); 
+
+Route::get('/reservations', [ReservationsController::class, 'index'])->name('reservations');
+Route::post('/AddReservation', [ReservationsController::class, 'AddReservation'])->name('AddReservation');
+Route::delete('/DeleteReservation/{id}', [ReservationsController::class, 'DeleteReservation'])->name('DeleteReservation');
+Route::post('/DeleteReservations', [ReservationsController::class, 'DeleteReservations'])->name('DeleteReservations');
+
+Route::get('/reports', [ReportsController::class, 'index'])->name('reports');

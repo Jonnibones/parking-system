@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\EmailSender;
+use App\Models\Parking_spaces;
 use App\Models\Services;
 use DateTime;
 use Illuminate\Http\Request;
@@ -49,14 +50,9 @@ class ServicesController extends Controller
         public function separated_service()
         {
             if(session()->has('user')){
-                
+
                 $spaces = DB::table('parking_spaces')
-                ->whereNotExists(function($query){
-                    $query->select(DB::raw(1))
-                    ->from('services')
-                    ->whereColumn('services.id_parking_space', 'parking_spaces.id')
-                    ->where('services.status', '!=', 'Finalizado');
-                })
+                ->where('status', 'Liberado')
                 ->get();
 
                 $services = DB::table('services')
@@ -120,13 +116,18 @@ class ServicesController extends Controller
                 $sanitizedData['entry_time'] = $date->format('Y-m-d H:i:s');
                 $sanitizedData['status'] = 'Em andamento';
 
+                DB::table('parking_spaces')
+                ->where('id', $sanitizedData['id_parking_space'])
+                ->update([
+                    'status' => 'Ocupado',
+                    'updated_at' =>  date("Y-m-d H:i:s")
+                ]);
+
                 $service = Services::create($sanitizedData);
                 $service_id = $service->id;
                 if ($request->input('receipt_email') === '1') {
                     Mail::to($sanitizedData['driver_email'])->send(new EmailSender($service_id));
                 }    
-        
-                
                 
                 return redirect()->action([ServicesController::class, 'separated_service'])->with('success', 'Serviço adicionado.');
 
@@ -141,14 +142,9 @@ class ServicesController extends Controller
         public function customer_service()
         {
             if(session()->has('user')){
-                
+
                 $spaces = DB::table('parking_spaces')
-                ->whereNotExists(function($query){
-                    $query->select(DB::raw(1))
-                    ->from('services')
-                    ->whereColumn('services.id_parking_space', 'parking_spaces.id')
-                    ->where('services.status', '!=', 'Finalizado');
-                })
+                ->where('status', 'Liberado')
                 ->get();
 
                 $services = DB::table('services')
@@ -224,6 +220,13 @@ class ServicesController extends Controller
                 $sanitizedData['entry_time'] = $date->format('Y-m-d H:i:s');
                 $sanitizedData['status'] = 'Em andamento';
 
+                DB::table('parking_spaces')
+                ->where('id', $sanitizedData['id_parking_space'])
+                ->update([
+                    'status' => 'Ocupado',
+                    'updated_at' =>  date("Y-m-d H:i:s")
+                ]);
+
                 $service = Services::create($sanitizedData);
                 $service_id = $service->id;
                 if ($request->input('receipt_email') === '1') {
@@ -298,10 +301,9 @@ class ServicesController extends Controller
                 $validatedData = $request->validate([
                     'id_service' => 'required|integer',
                 ]);
-            
                 
                 $service = DB::table('services')
-                ->select('entry_time', 'service_type')
+                ->select('entry_time', 'service_type', 'id_parking_space')
                 ->where('id', $validatedData['id_service'])
                 ->first();
 
@@ -339,12 +341,19 @@ class ServicesController extends Controller
                     'departure_time' => $dataAtual,
                     'value' => $service_value,
                     'status' => 'Finalizado',
-                    'updated_at' => $dataAtual,
+                    'updated_at' =>  date("Y-m-d H:i:s")
                 ]);
 
                 $service = DB::table('services')
-                ->select('departure_time', 'value', 'status')
+                ->select('departure_time', 'value', 'status', 'id_parking_space')
                 ->where('id', $validatedData['id_service'])->first();
+
+                DB::table('parking_spaces')
+                ->where('id', $service->id_parking_space)
+                ->update([
+                    'status' => 'Liberado',
+                    'updated_at' =>  date("Y-m-d H:i:s")
+                ]);
 
                 $data = [
                     'departure_time' => date('d-m-Y H:i:s', strtotime($service->departure_time)),

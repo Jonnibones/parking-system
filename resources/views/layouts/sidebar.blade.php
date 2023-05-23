@@ -155,8 +155,8 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/charts/chartjs.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
+                <a href="{{route('reservations')}}" class="nav-link">
+                  <i class="{{ request()->segment(1) == 'reservations' ? 'fas fa-circle nav-icon' : 'far fa-circle nav-icon' }}"></i>
                   <p>Gerenciar reservas</p>
                 </a>
               </li>
@@ -164,17 +164,17 @@
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
-              <i class="ion-stats-bars"></i>
+              <i class="ion-compose"></i>
               <p>
-                Financeiro
+                Relatórios
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/charts/chartjs.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Relatórios</p>
+                <a href="{{route('reports')}}" class="nav-link">
+                  <i class="{{ request()->segment(1) == 'reports' ? 'fas fa-circle nav-icon' : 'far fa-circle nav-icon' }}"></i>
+                  <p>Gerenciar relatórios</p>
                 </a>
               </li>
             </ul>
