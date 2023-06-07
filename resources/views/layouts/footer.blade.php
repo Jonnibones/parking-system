@@ -25,6 +25,7 @@ $.widget.bridge('uibutton', $.ui.button)
 <script src="<?php echo $base_url;?>vendor/almasaeed2010/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- ChartJS -->
 <script src="<?php echo $base_url;?>vendor/almasaeed2010/adminlte/plugins/chart.js/Chart.min.js"></script>
+<script src="<?php echo $base_url;?>vendor/almasaeed2010/adminlte/plugins/chart.js/chartjs-plugin-datalabels.min.js"></script>
 <!-- Sparkline -->
 <script src="<?php echo $base_url;?>vendor/almasaeed2010/adminlte/plugins/sparklines/sparkline.js"></script>
 <!-- JQVMap -->

@@ -65,3 +65,4 @@ Route::delete('/DeleteReservation/{id}', [ReservationsController::class, 'Delete
 Route::post('/DeleteReservations', [ReservationsController::class, 'DeleteReservations'])->name('DeleteReservations');
 
 Route::get('/reports', [ReportsController::class, 'index'])->name('reports');
+Route::post('/searchReport', [ReportsController::class, 'searchReport'])->name('searchReport'); 

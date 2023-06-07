@@ -109,4 +109,34 @@ class ReportsController extends Controller
 
         return redirect()->action([ReservationsController::class, 'index'])->with('success', 'Reserva deletada');
     }
+
+    public function searchReport(Request $resquest)
+    {
+        if(session()->has('user')){
+            $validatedData = $resquest->validate([
+                'type' => 'required|string',
+                'initialPeriod' => 'required|string',
+                'finalPeriod' => 'required|string',
+            ]);
+
+            if($validatedData['type'] == 'Services'){
+
+                $initialPeriodTimeStamp = strtotime($validatedData['initialPeriod']);
+                $finalPeriodTimeStamp = strtotime($validatedData['finalPeriod']);
+                
+                $data = DB::table('services')
+                ->selectRaw('services.*, "service" AS `type`, parking_spaces.parking_space_number, users.name AS user')
+                ->join('parking_spaces', 'parking_spaces.id', '=', 'services.id_parking_space')
+                ->join('users', 'users.id', '=', 'services.id_user')
+                ->where('services.created_at', '>=', date('Y-m-d, H:i:s', $initialPeriodTimeStamp))
+                ->where('services.created_at', '<=', date('Y-m-d, H:i:s', $finalPeriodTimeStamp))
+                ->get();
+            }
+
+            return response()->json($data);
+
+        }else{
+            return redirect()->action([AdminController::class, 'logout']);
+        }
+    }
 }

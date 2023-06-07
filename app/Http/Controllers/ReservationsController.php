@@ -130,4 +130,6 @@ class ReservationsController extends Controller
 
         return redirect()->action([ReservationsController::class, 'index'])->with('success', 'Reserva deletada');
     }
+
+   
 }
