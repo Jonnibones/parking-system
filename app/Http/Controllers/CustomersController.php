@@ -59,10 +59,8 @@ class CustomersController extends Controller
                 'email' => 'required|string|max:255',
                 'phone' => 'required|string|max:50',
                 'address' => 'required|string|max:255',
-                'license_plate_number' => 'required|string|max:50',
-                'model' => 'required|string|max:50',
-                'brand' => 'required|string|max:50',
-                'color' => 'required|string|max:50'
+                'gender' => 'required|string|max:50',
+                'age' => 'required|integer',
             ]);
             $sanitizedData = filter_var_array($validatedData, FILTER_SANITIZE_STRING);
             $phone_number = $sanitizedData['phone'];

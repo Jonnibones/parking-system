@@ -81,9 +81,21 @@
                         </div>
                     </div>
                     <div style="margin-bottom: 30px;" class="row">
-                        <div class="col col-md-6">
+                        <div class="col col-md-2">
                             <label for="">N° Telefone/Celular</label>
                             <input required class="form-control" name="phone" id="inp_phone_number" type="text">
+                        </div>
+                        <div class="col col-md-2">
+                            <label for="">Gênero</label>
+                            <select required class="form-control" name="gender" id="inp_gender">
+                                <option selected disabled value="">Selecione um valor</option>
+                                <option value="M">Masculino</option>
+                                <option value="F">Feminino</option>
+                            </select>
+                        </div>
+                        <div class="col col-md-2">
+                            <label for="">Idade</label>
+                            <input required class="form-control" name="age" id="inp_age" min="18" placeholder="18" type="number">
                         </div>
                         <div class="col col-md-6">
                             <label for="">Endereço</label>

@@ -131,6 +131,30 @@ class ReportsController extends Controller
                 ->where('services.created_at', '>=', date('Y-m-d, H:i:s', $initialPeriodTimeStamp))
                 ->where('services.created_at', '<=', date('Y-m-d, H:i:s', $finalPeriodTimeStamp))
                 ->get();
+
+            }else if($validatedData['type'] == 'Customers'){
+
+                $initialPeriodTimeStamp = strtotime($validatedData['initialPeriod']);
+                $finalPeriodTimeStamp = strtotime($validatedData['finalPeriod']);
+                
+                $data = DB::table('customers')
+                ->selectRaw('customers.*, "customer" AS `type`')
+                ->where('customers.created_at', '>=', date('Y-m-d, H:i:s', $initialPeriodTimeStamp))
+                ->where('customers.created_at', '<=', date('Y-m-d, H:i:s', $finalPeriodTimeStamp))
+                ->get();
+
+            }else{
+
+                $initialPeriodTimeStamp = strtotime($validatedData['initialPeriod']);
+                $finalPeriodTimeStamp = strtotime($validatedData['finalPeriod']);
+                
+                $data = DB::table('reservations')
+                ->selectRaw('reservations.*, "reservation" AS `type`, parking_spaces.parking_space_number, customers.name AS customer')
+                ->join('parking_spaces', 'parking_spaces.id', '=', 'reservations.id_parking_space')
+                ->join('customers', 'customers.id', '=', 'reservations.id_customer')
+                ->where('reservations.created_at', '>=', date('Y-m-d, H:i:s', $initialPeriodTimeStamp))
+                ->where('reservations.created_at', '<=', date('Y-m-d, H:i:s', $finalPeriodTimeStamp))
+                ->get();
             }
 
             return response()->json($data);

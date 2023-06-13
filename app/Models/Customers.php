@@ -15,6 +15,8 @@ class Customers extends Model
         'email',
         'phone',
         'address',
+        'gender',
+        'age',
         'created_at',
         'updated_at'
         
