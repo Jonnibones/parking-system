@@ -66,3 +66,4 @@ Route::post('/DeleteReservations', [ReservationsController::class, 'DeleteReserv
 
 Route::get('/reports', [ReportsController::class, 'index'])->name('reports');
 Route::post('/searchReport', [ReportsController::class, 'searchReport'])->name('searchReport'); 
+Route::post('/report_pdf', [ReportsController::class, 'report_pdf'])->name('report_pdf');

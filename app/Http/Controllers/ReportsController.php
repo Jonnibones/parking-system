@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Reservations;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class ReportsController extends Controller
 {
@@ -21,6 +23,7 @@ class ReportsController extends Controller
         } 
     }
 
+    /*
     public function AddReservation(Request $request){
         if(session()->has('user')){
             $request->validate(['_token' => 'required|in:'.csrf_token(),]); 
@@ -48,6 +51,7 @@ class ReportsController extends Controller
         }
     }
 
+    
     public function DeleteReservations(Request $request)
     {
         if(session()->has('user')){
@@ -109,6 +113,7 @@ class ReportsController extends Controller
 
         return redirect()->action([ReservationsController::class, 'index'])->with('success', 'Reserva deletada');
     }
+    */
 
     public function searchReport(Request $resquest)
     {
@@ -160,6 +165,72 @@ class ReportsController extends Controller
             return response()->json($data);
 
         }else{
+            return redirect()->action([AdminController::class, 'logout']);
+        }
+    }
+
+    public function report_pdf(Request $request)
+    {
+        if (session()->has('user')) {
+
+            $validatedData = $request->validate([
+                'type' => 'required|string',
+                'initialPeriod' => 'required|string',
+                'finalPeriod' => 'required|string',
+            ]);
+
+            if($validatedData['type'] == 'Services'){
+
+                $initialPeriodTimeStamp = strtotime($validatedData['initialPeriod']);
+                $finalPeriodTimeStamp = strtotime($validatedData['finalPeriod']);
+                
+                $data = DB::table('services')
+                ->selectRaw('services.*, "service" AS `type`, parking_spaces.parking_space_number, users.name AS user')
+                ->join('parking_spaces', 'parking_spaces.id', '=', 'services.id_parking_space')
+                ->join('users', 'users.id', '=', 'services.id_user')
+                ->where('services.created_at', '>=', date('Y-m-d, H:i:s', $initialPeriodTimeStamp))
+                ->where('services.created_at', '<=', date('Y-m-d, H:i:s', $finalPeriodTimeStamp))
+                ->get();
+
+            }else if($validatedData['type'] == 'Customers'){
+
+                $initialPeriodTimeStamp = strtotime($validatedData['initialPeriod']);
+                $finalPeriodTimeStamp = strtotime($validatedData['finalPeriod']);
+                
+                $data = DB::table('customers')
+                ->selectRaw('customers.*, "customer" AS `type`')
+                ->where('customers.created_at', '>=', date('Y-m-d, H:i:s', $initialPeriodTimeStamp))
+                ->where('customers.created_at', '<=', date('Y-m-d, H:i:s', $finalPeriodTimeStamp))
+                ->get();
+
+            }else{
+
+                $initialPeriodTimeStamp = strtotime($validatedData['initialPeriod']);
+                $finalPeriodTimeStamp = strtotime($validatedData['finalPeriod']);
+                
+                $data = DB::table('reservations')
+                ->selectRaw('reservations.*, "reservation" AS `type`, parking_spaces.parking_space_number, customers.name AS customer')
+                ->join('parking_spaces', 'parking_spaces.id', '=', 'reservations.id_parking_space')
+                ->join('customers', 'customers.id', '=', 'reservations.id_customer')
+                ->where('reservations.created_at', '>=', date('Y-m-d, H:i:s', $initialPeriodTimeStamp))
+                ->where('reservations.created_at', '<=', date('Y-m-d, H:i:s', $finalPeriodTimeStamp))
+                ->get();
+            }
+
+            $options = new Options();
+            $options->setIsRemoteEnabled(true);
+            $dompdf = new Dompdf($options);
+            $dompdf->loadHtml(view('layout_pdf.report-'.strtolower($validatedData['type']), ['data'  => $data]));
+            $dompdf->render();
+
+            $outputFilename = 'relatorio-' . $validatedData['type'] . '.pdf';
+
+            return response(base64_encode($dompdf->output()))
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'attachment; filename="' . $outputFilename . '"');
+
+
+        } else {
             return redirect()->action([AdminController::class, 'logout']);
         }
     }

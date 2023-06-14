@@ -282,42 +282,42 @@
         btn_generate_receipt.addEventListener('click', function() {
             if (confirm('Tem certeza que deseja gerar o recibo para este serviço?')) {
 
-                let btn_ladda = Ladda.create(btn_generate_receipt);
-                btn_ladda.start();
+              let btn_ladda = Ladda.create(btn_generate_receipt);
+              btn_ladda.start();
 
-                let tr = btn_generate_receipt.parentElement.parentElement;
+              let tr = btn_generate_receipt.parentElement.parentElement;
 
-                let id_service = tr.querySelector('td[data-id="td_id_service"]').innerHTML;
+              let id_service = tr.querySelector('td[data-id="td_id_service"]').innerHTML;
 
-                var csrf_token = $('meta[name="csrf-token"]').attr('content');
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': csrf_token
-                    }
-                });
+              var csrf_token = $('meta[name="csrf-token"]').attr('content');
+              $.ajaxSetup({
+                  headers: {
+                      'X-CSRF-TOKEN': csrf_token
+                  }
+              });
 
-                $.post(
-                    "{{ route('generate_receipt') }}", {
-                        id_service: id_service,
-                    },
-                    function(data) {
-                        var byteCharacters = atob(data);
-                        var byteNumbers = new Array(byteCharacters.length);
-                        for (var i = 0; i < byteCharacters.length; i++) {
-                            byteNumbers[i] = byteCharacters.charCodeAt(i);
-                        }
-                        var byteArray = new Uint8Array(byteNumbers);
-                        var blob = new Blob([byteArray], {
-                            type: 'application/pdf'
-                        });
-                        var link = document.createElement('a');
-                        link.href = window.URL.createObjectURL(blob);
-                        link.download = 'recibo-servico-' + id_service + '.pdf';
-                        link.click();
-                        btn_ladda.stop();
-                        alert('Recibo gerado.');
+              $.post(
+                  "{{ route('generate_receipt') }}", {
+                      id_service: id_service,
+                  },
+                  function(data) {
+                      var byteCharacters = atob(data);
+                      var byteNumbers = new Array(byteCharacters.length);
+                      for (var i = 0; i < byteCharacters.length; i++) {
+                          byteNumbers[i] = byteCharacters.charCodeAt(i);
+                      }
+                      var byteArray = new Uint8Array(byteNumbers);
+                      var blob = new Blob([byteArray], {
+                          type: 'application/pdf'
+                      });
+                      var link = document.createElement('a');
+                      link.href = window.URL.createObjectURL(blob);
+                      link.download = 'recibo-servico-' + id_service + '.pdf';
+                      link.click();
+                      btn_ladda.stop();
+                      alert('Recibo gerado.');
 
-                    });
+                  });
             }
         });
     }); 
