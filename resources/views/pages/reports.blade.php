@@ -109,9 +109,7 @@
                         <i class="ion-stats-bars"></i> Excel
                       </button>
                     </div>
-                  </form>
-                  
-                
+                </form>
 
                 <div style="margin-top: 20px;" id="divCharts" class="container">
                     <div class="row">
@@ -2709,6 +2707,7 @@
 
     /////////////////////////////////////////////////////////////////////////////
 
+    //Método responsável por baixar pdf na máquina do usuário
     const btnPdf = document.querySelector("#btnPdf");
     btnPdf.addEventListener("click", function(e){
         let table = document.querySelector("#table");
@@ -2751,7 +2750,7 @@
                     link.download = 'relatorio-'+type+'.pdf';
                     link.click();
                     btn_ladda.stop();
-                    alert('Recibo gerado.');
+                    alert('Arquivo pdf gerado.');
 
                 });
 
@@ -2761,6 +2760,7 @@
         }
     });
 
+    //Método responsável por baixar excel na máquina do usuário
     const btnExcel = document.querySelector("#btnExcel");
     btnExcel.addEventListener("click", function(e) {
         let table = document.querySelector("#table");
