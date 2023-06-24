@@ -12,13 +12,12 @@ class MainController extends Controller
         if(session()->has('user')){
 
             $parking_spaces = DB::table('parking_spaces')
-    ->leftJoin('services', 'parking_spaces.id', '=', 'services.id_parking_space')
-    ->select('parking_spaces.parking_space_number', DB::raw('MAX(services.service_type) AS service_type'), 
-        DB::raw('MAX(services.driver_name) AS driver_name'), 'parking_spaces.status')
-    ->orderBy('parking_spaces.parking_space_number')
-    ->groupBy('parking_spaces.parking_space_number', 'parking_spaces.status')
-    ->get();
-
+            ->leftJoin('services', 'parking_spaces.id', '=', 'services.id_parking_space')
+            ->select('parking_spaces.parking_space_number', DB::raw('MAX(services.service_type) AS service_type'), 
+                DB::raw('MAX(services.driver_name) AS driver_name'), 'parking_spaces.status')
+            ->orderBy('parking_spaces.parking_space_number')
+            ->groupBy('parking_spaces.parking_space_number', 'parking_spaces.status')
+            ->get();
 
             $numberServicesFinished = DB::table('services')
             ->where('services.status', '=', 'Finalizado')
@@ -47,6 +46,16 @@ class MainController extends Controller
             ->where('active', '=', '0' )
             ->count();
 
+            $numberSpacesBadge['Occupied'] = DB::table('parking_spaces')
+            ->where('status', '=', 'Ocupado')
+            ->count();
+            $numberSpacesBadge['Reserved'] = DB::table('parking_spaces')
+            ->where('status', '=', 'Reservado')
+            ->count();
+            $numberSpacesBadge['Liberated'] = DB::table('parking_spaces')
+            ->where('status', '=', 'Liberado')
+            ->count();
+
             $contents = [
                 'numberSpacesOccupied' => $numberSpacesOccupied,
                 'numberServicesInProgress' => $numberServicesInProgress,
@@ -57,6 +66,7 @@ class MainController extends Controller
                 'numberReservations' => $numberReservations,
                 'numberActiveReservations' => $numberActiveReservations,
                 'numberNoActiveReservations' => $numberNoActiveReservations,
+                'numberSpacesBadge' => $numberSpacesBadge,
                 'view' => 'main',
             ];
             return view('master', compact('contents'));

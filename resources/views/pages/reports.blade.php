@@ -176,7 +176,6 @@
                     finalPeriod: finalPeriod
                 },
                 function(data){
-                    console.log(data)
 
                     if(type == 'Services'){
                         if(data.length > 0){
@@ -1033,7 +1032,6 @@
                     finalPeriod: finalPeriod
                 },
                 function(data){
-                    console.log(data)
 
                     if(type == 'Services'){
                         if(data.length > 0){
@@ -1890,7 +1888,6 @@
                     finalPeriod: finalPeriod
                 },
                 function(data){
-                    console.log(data)
 
                     if(type == 'Services'){
                         if(data.length > 0){
@@ -2738,7 +2735,7 @@
                     type: type,
                     initialPeriod: initialPeriod,
                     finalPeriod: finalPeriod,
-                },//CONTINUAR DAQUI
+                },
                 function(data) {
                     var byteCharacters = atob(data);
                     var byteNumbers = new Array(byteCharacters.length);
@@ -2763,5 +2760,59 @@
             e.preventDefault();
         }
     });
+
+    const btnExcel = document.querySelector("#btnExcel");
+    btnExcel.addEventListener("click", function(e) {
+        let table = document.querySelector("#table");
+        let tableLines = table.querySelectorAll("tbody tr");
+
+        if (tableLines[0].children[0].innerHTML !== 'Nenhum registro encontrado') {
+            let type = sel_report.value;
+            let initialPeriod = selInitialPeriod.value;
+            let finalPeriod = selFinalPeriod.value;
+
+            let btn_ladda = Ladda.create(btnExcel);
+            btn_ladda.start();
+
+            var csrf_token = $('meta[name="csrf-token"]').attr('content');
+            $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': csrf_token
+            }
+            });
+
+            $.post(
+            "{{ route('report_excel') }}", {
+                type: type,
+                initialPeriod: initialPeriod,
+                finalPeriod: finalPeriod,
+            },
+            function(data) {
+                var byteCharacters = atob(data);
+                var byteNumbers = new Array(byteCharacters.length);
+
+                for (var i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+
+                var byteArray = new Uint8Array(byteNumbers);
+                var blob = new Blob([byteArray], {
+                    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                });
+                
+                var link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = 'relatorio-' + type + '.xlsx';
+                link.click();
+                btn_ladda.stop();
+                alert('Arquivo Excel gerado.');
+            });
+
+        } else {
+            alert("Nenhum registro encontrado");
+            e.preventDefault();
+        }
+    });
+
 
 </script>

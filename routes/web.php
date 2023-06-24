@@ -22,14 +22,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    if(session()->has('user')){
+        return response()->view('layouts.error-404', [], 404);
+    }else{
+        return redirect()->action([AdminController::class, 'index']);
+    }
 });
 
 Route::get('/admin', [AdminController::class, 'index']);
 Route::post('/auth', [AdminController::class, 'auth']);
-
 Route::get('/main', [MainController::class, 'index'])->name('main');
-
 Route::post('/logout', [AdminController::class, 'logout'])->name('logout');
 
 Route::get('/services', [ServicesController::class, 'services'])->name('services');
@@ -67,3 +69,8 @@ Route::post('/DeleteReservations', [ReservationsController::class, 'DeleteReserv
 Route::get('/reports', [ReportsController::class, 'index'])->name('reports');
 Route::post('/searchReport', [ReportsController::class, 'searchReport'])->name('searchReport'); 
 Route::post('/report_pdf', [ReportsController::class, 'report_pdf'])->name('report_pdf');
+Route::post('/report_excel', [ReportsController::class, 'report_excel'])->name('report_excel');
+
+Route::fallback(function () {
+    return response()->view('layouts.error-404', [], 404);
+});
