@@ -1,64 +1,107 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Sistema de Estacionamento "parking-system"
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+O "parking-system" é um sistema de estacionamento desenvolvido em PHP, JavaScript e Laravel 8, com a utilização das bibliotecas DataTables, AdminLTE, Ladda, entre outras. Esse sistema oferece uma variedade de recursos para o gerenciamento eficiente de serviços, vagas, clientes, reservas, envio de e-mails e geração de relatórios em formato PDF e Excel.
 
-## About Laravel
+## Recursos Principais
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+O "parking-system" possui os seguintes recursos principais:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+1. Gerenciamento de Serviços:
+   - Possibilidade de criar e gerenciar serviços avulsos oferecidos pelo estacionamento.
+   - Suporte para serviços oferecidos a clientes cadastrados no sistema.
+   - Sistema de envio de recibo por e-mail em pdf(download).
+   
+2. Gerenciamento de Vagas:
+   - Funcionalidade para criar e gerenciar vagas disponíveis no estacionamento.
+   - Acompanhamento em tempo real das vagas ocupadas e disponíveis.
+   
+3. Gerenciamento de Clientes:
+   - Capacidade de cadastrar e gerenciar informações de clientes que utilizam o estacionamento.
+   - Histórico de serviços utilizados por cada cliente, proporcionando um melhor controle financeiro.
+   
+4. Reservas:
+   - Opção para os clientes realizarem reservas de vagas antecipadamente.
+   
+5. Relatórios:
+   - Geração de relatórios em formato PDF e Excel, permitindo uma análise de alguns dados do estacionamento.
+   - Relatórios de ocupação de vagas e outras estatísticas relevantes.
+   
+## Tecnologias Utilizadas
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+O sistema "parking-system" foi desenvolvido utilizando as seguintes tecnologias e bibliotecas:
 
-## Learning Laravel
+- PHP: Linguagem de programação utilizada para a implementação das funcionalidades do sistema.
+- JavaScript: Utilizado para tornar a interface do usuário interativa e responsiva.
+- Laravel 8: Framework PHP de alto desempenho e elegante utilizado para o desenvolvimento do sistema.
+- DataTables: Biblioteca JavaScript que permite a exibição e manipulação de dados em tabelas de forma avançada e interativa.
+- AdminLTE: Template de painel administrativo responsivo e moderno que oferece uma interface de usuário intuitiva e agradável.
+- Ladda: Biblioteca JavaScript que fornece animações de carregamento para melhorar a experiência do usuário durante a interação com o sistema.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Requisitos de Instalação
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Para executar o "parking-system" em seu ambiente local, certifique-se de cumprir os seguintes requisitos:
 
-## Laravel Sponsors
+- Servidor web (como Apache ou Nginx)
+- PHP 7.4 ou superior
+- Banco de dados MySQL
+- Composer (gerenciador de dependências para o PHP)
+- Git (opcional, caso queira clonar o repositório diretamente)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## Instalação
 
-### Premium Partners
+Siga as etapas abaixo para instalar o sistema "parking-system" em seu ambiente local:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+1. Clone o repositório (ou faça o download dos arquivos) para o seu servidor web:
 
-## Contributing
+```
+git clone https://github.com/Jonnibones/parking-system.git
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+2. A
 
-## Code of Conduct
+cesse o diretório do projeto:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```
+cd parking-system
+```
 
-## Security Vulnerabilities
+3. Instale as dependências do Composer:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```
+composer install
+```
 
-## License
+4. Crie um arquivo de ambiente (.env) a partir do exemplo fornecido (.env.example):
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```
+cp .env.example .env
+```
+
+5. Configure o arquivo .env com as informações do seu banco de dados:
+
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nome-do-banco-de-dados
+DB_USERNAME=usuario-do-banco-de-dados
+DB_PASSWORD=senha-do-banco-de-dados
+```
+
+6. Gere uma chave de aplicativo:
+
+```
+php artisan key:generate
+```
+
+7. Inicie o servidor local:
+
+```
+php artisan serve
+```
+
+8. Acesse o sistema no seu navegador usando o endereço fornecido pelo comando anterior.
+
+## Conclusão
+
+O sistema de estacionamento "parking-system" oferece uma solução completa para o gerenciamento eficiente de serviços, vagas, clientes, reservas e geração de relatórios. Com uma interface intuitiva e recursos avançados, esse sistema simplifica a administração do estacionamento e fornece uma visão abrangente das atividades e finanças relacionadas ao negócio. Sinta-se à vontade para explorar o código-fonte e personalizar o sistema de acordo com suas necessidades específicas.
