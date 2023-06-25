@@ -18,7 +18,8 @@ class ReportsController extends Controller
         if(session()->has('user')){
 
             $contents = [
-                'view' => 'reports'
+                'view' => 'reports',
+                'title' => 'Relatórios'
             ];
             return view('master', compact('contents'));
         }else{

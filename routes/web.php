@@ -8,6 +8,8 @@ use App\Http\Controllers\ParkingSpacesController;
 use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\ReservationsController;
 use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\UsersController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,6 +35,8 @@ Route::get('/admin', [AdminController::class, 'index']);
 Route::post('/auth', [AdminController::class, 'auth']);
 Route::get('/main', [MainController::class, 'index'])->name('main');
 Route::post('/logout', [AdminController::class, 'logout'])->name('logout');
+
+Route::get('/user/{id}', [UsersController::class, 'user'])->name('user');
 
 Route::get('/services', [ServicesController::class, 'services'])->name('services');
 Route::get('/separated_service', [ServicesController::class, 'separated_service'])->name('separated_service');

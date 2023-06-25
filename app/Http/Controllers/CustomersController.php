@@ -41,6 +41,7 @@ class CustomersController extends Controller
             $contents = [
                 'view' => 'customers',
                 'customers' => $modifiedCustomers,
+                'title' => 'Clientes'
             ];
             return view('master', compact('contents'));
         }else{
@@ -96,7 +97,8 @@ class CustomersController extends Controller
         return redirect()->action([CustomersController::class, 'index'])->with('success', 'Cliente deletado');
     }
 
-    public function DeleteCustomers(Request $request){
+    public function DeleteCustomers(Request $request)
+    {
 
         if(session()->has('user')){
             $request->validate(['_token' => 'required|in:'.csrf_token(),]); 
@@ -174,7 +176,8 @@ class CustomersController extends Controller
                 'vehicles' => $vehicles,
                 'customer' => $customer,
                 'customers' => $customers,
-                'id' => $id
+                'id' => $id,
+                'title' => 'Veículos cliente'
             ];
             return view('master', compact('contents'));
         }else{
@@ -189,7 +192,8 @@ class CustomersController extends Controller
         return redirect()->action([CustomersController::class, 'customers_vehicles'])->with('success', 'Veículo deletado');
     }
 
-    public function DeleteVehicles(Request $request){
+    public function DeleteVehicles(Request $request)
+    {
 
         if(session()->has('user')){
             $request->validate(['_token' => 'required|in:'.csrf_token(),]); 
@@ -210,7 +214,8 @@ class CustomersController extends Controller
         }
     } 
 
-    public function updateVehicle(Request $request){
+    public function updateVehicle(Request $request)
+    {
         if(session()->has('user')){
             $validatedData = $request->validate([
                 'id_vehicle' => 'required|integer',

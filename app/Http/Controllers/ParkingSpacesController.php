@@ -21,6 +21,7 @@ class ParkingSpacesController extends Controller
             $contents = [
                 'view' => 'parking_spaces',
                 'parking_spaces' => $parking_spaces,
+                'title' => 'Vagas'
             ];
             return view('master', compact('contents'));
         }else{

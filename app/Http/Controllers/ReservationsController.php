@@ -33,7 +33,8 @@ class ReservationsController extends Controller
                 'view' => 'reservations',
                 'reservations' => $reservations,
                 'customers' => $customers,
-                'spaces' => $spaces
+                'spaces' => $spaces,
+                'title' => 'Reservas'
 
             ];
             return view('master', compact('contents'));

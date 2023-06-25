@@ -16,13 +16,10 @@ class AdminController extends Controller
 
     public function auth(Request $request)
     {
-        //Recebe os valores da requisição
         $credentials = $request->only('email', 'password');  
-
-        //Verifica se o token é valido
+        
         $request->validate(['_token' => 'required|in:'.csrf_token(),]); 
         
-        // Tenta autenticar o usuário
         if (Auth::attempt($credentials)) {
 
             $user = User::where('email', $credentials['email'])->first();

@@ -109,27 +109,19 @@
           <!--<span class="badge badge-warning navbar-badge">15</span>-->
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">15 Notifications</span>
+          <span class="dropdown-item dropdown-header">Parking system ©</span>
+          <div class="dropdown-divider"></div>
+          <a href="{{ route('user', ['id' => session('user')['id']]) }}" class="dropdown-item">
+            <i class="fas fa-user mr-2"></i> Meus dados
+            <span hidden class="float-right text-muted text-sm">12 hours</span>
+          </a>
           <div class="dropdown-divider"></div>
           <form action="{{route('logout')}}" method="post">
             @csrf
             <button href="/logout" class="btn btn-link">
-              <i class="fas fa-sign-out-alt"></i> Sair
+              <i class="fas fa-sign-out-alt mr-2"></i> Sair
             </button>
           </form>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 8 friend requests
-            <span class="float-right text-muted text-sm">12 hours</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> 3 new reports
-            <span class="float-right text-muted text-sm">2 days</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-        </div>
       </li>
     </ul>
   </nav>

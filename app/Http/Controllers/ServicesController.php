@@ -22,7 +22,8 @@ class ServicesController extends Controller
     }
 
     //Services
-        public function services(){
+        public function services()
+        {
             if(session()->has('user')){
 
                 $services = DB::table('services')
@@ -38,6 +39,7 @@ class ServicesController extends Controller
                 $contents = [
                     'view' => 'services',
                     'services' => $services,
+                    'title' => 'Serviços'
                 ];
                 return view('master', compact('contents'));
             }else{
@@ -69,6 +71,7 @@ class ServicesController extends Controller
                     'view' => 'separated_services',
                     'spaces' => $spaces,
                     'services' => $services,
+                    'title' => 'Serviços avulso'
                 ];
                 return view('master', compact('contents'));
             }else{
@@ -166,6 +169,7 @@ class ServicesController extends Controller
                     'spaces' => $spaces,
                     'services' => $services,
                     'customers' => $customers,
+                    'title' => 'Serviços cliente'
                 ];
                 return view('master', compact('contents'));
             }else{

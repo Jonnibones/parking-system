@@ -67,6 +67,7 @@ class MainController extends Controller
                 'numberActiveReservations' => $numberActiveReservations,
                 'numberNoActiveReservations' => $numberNoActiveReservations,
                 'numberSpacesBadge' => $numberSpacesBadge,
+                'title' => 'Dashboard',
                 'view' => 'main',
             ];
             return view('master', compact('contents'));
