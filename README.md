@@ -57,9 +57,7 @@ Siga as etapas abaixo para instalar o sistema "parking-system" em seu ambiente l
 git clone https://github.com/Jonnibones/parking-system.git
 ```
 
-2. A
-
-cesse o diretório do projeto:
+2. Acesse o diretório do projeto:
 
 ```
 cd parking-system
