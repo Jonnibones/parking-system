@@ -100,6 +100,44 @@ php artisan serve
 
 8. Acesse o sistema no seu navegador usando o endereço fornecido pelo comando anterior.
 
+9. Cadastrando um usuário 
+
+   1. Abra o arquivo `.env` do seu projeto Laravel e configure as informações do banco de dados, incluindo o nome do banco de dados, o usuário e a senha.
+
+   2. Execute o seguinte comando para criar a tabela "users" no banco de dados:
+
+   ```bash
+   php artisan migrate
+   ```
+
+   Isso executará todas as migrações pendentes, incluindo a criação da tabela "users".
+
+   3. Agora, você pode usar o recurso de "tinker" do Laravel para inserir um novo usuário na tabela "users". Execute o seguinte comando no terminal:
+
+   ```bash
+   php artisan tinker
+   ```
+
+   Isso abrirá o console "tinker" do Laravel, onde você pode interagir com seu aplicativo.
+
+   4. Para criar um novo usuário, utilize o seguinte código no console "tinker":
+
+   ```php
+   $user = new \App\Models\User;
+   $user->name = 'Nome do Usuário';
+   $user->email = 'email@example.com';
+   $user->password = \Hash::make('senha');
+   $user->save();
+   ```
+
+   Substitua `'Nome do Usuário'`, `'email@example.com'` e `'senha'` pelos valores desejados para o novo usuário.
+
+   5. Pressione `Ctrl+D` (ou digite `exit`) para sair do console "tinker".
+
+   Agora você inseriu com sucesso um novo usuário na tabela "users" do Laravel 8. Esse usuário pode ser usado para autenticação e outras funcionalidades do seu aplicativo. Certifique-se de atualizar as informações do usuário (nome, e-mail, senha) de acordo com suas necessidades específicas.
+
+10. Para acessar o sistema online para testes, acesse https://jow-systems.me/parking-system/admin com o endereço de e-mail: guest@guest.com | senha: 12345678
+
 ## Conclusão
 
 O sistema de estacionamento "parking-system" oferece uma solução completa para o gerenciamento eficiente de serviços, vagas, clientes, reservas e geração de relatórios. Com uma interface intuitiva e recursos avançados, esse sistema simplifica a administração do estacionamento e fornece uma visão abrangente das atividades e finanças relacionadas ao negócio. Sinta-se à vontade para explorar o código-fonte e personalizar o sistema de acordo com suas necessidades específicas.
