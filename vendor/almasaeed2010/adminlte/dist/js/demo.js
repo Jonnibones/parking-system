@@ -7,9 +7,11 @@
 
 /* eslint-disable camelcase */
 
+
 (function ($) {
   'use strict'
 
+  /*
   setTimeout(function () {
     if (window.___browserSync___ === undefined && Number(localStorage.getItem('AdminLTE:Demo:MessageShowed')) < Date.now()) {
       localStorage.setItem('AdminLTE:Demo:MessageShowed', (Date.now()) + (15 * 60 * 1000))
@@ -17,6 +19,7 @@
       alert('You load AdminLTE\'s "demo.js", \nthis file is only created for testing purposes!')
     }
   }, 1000)
+  */
 
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1)
@@ -60,7 +63,7 @@
   // Checkboxes
 
   $container.append(
-    '<h5>Customize AdminLTE</h5><hr class="mb-2"/>'
+    '<h5>Customizar layout</h5><hr class="mb-2"/>'
   )
 
   var $dark_mode_checkbox = $('<input />', {
@@ -75,10 +78,11 @@
       $('body').removeClass('dark-mode')
     }
   })
-  var $dark_mode_container = $('<div />', { class: 'mb-4' }).append($dark_mode_checkbox).append('<span>Dark Mode</span>')
+  var $dark_mode_container = $('<div />', { class: 'mb-4' }).append($dark_mode_checkbox).append('<span>Modo escuro</span>')
   $container.append($dark_mode_container)
 
-  $container.append('<h6>Header Options</h6>')
+  $container.append('<h6>Opções de cabeçalho</h6>')
+
   var $header_fixed_checkbox = $('<input />', {
     type: 'checkbox',
     value: 1,
@@ -91,7 +95,7 @@
       $('body').removeClass('layout-navbar-fixed')
     }
   })
-  var $header_fixed_container = $('<div />', { class: 'mb-1' }).append($header_fixed_checkbox).append('<span>Fixed</span>')
+  var $header_fixed_container = $('<div />', { class: 'mb-1' }).append($header_fixed_checkbox).append('<span>Fixo</span>')
   $container.append($header_fixed_container)
 
   var $dropdown_legacy_offset_checkbox = $('<input />', {
@@ -106,7 +110,7 @@
       $('.main-header').removeClass('dropdown-legacy')
     }
   })
-  var $dropdown_legacy_offset_container = $('<div />', { class: 'mb-1' }).append($dropdown_legacy_offset_checkbox).append('<span>Dropdown Legacy Offset</span>')
+  var $dropdown_legacy_offset_container = $('<div />', { class: 'mb-1' }).append($dropdown_legacy_offset_checkbox).append('<span>Deslocamento herdado suspenso</span>')
   $container.append($dropdown_legacy_offset_container)
 
   var $no_border_checkbox = $('<input />', {
@@ -121,10 +125,10 @@
       $('.main-header').removeClass('border-bottom-0')
     }
   })
-  var $no_border_container = $('<div />', { class: 'mb-4' }).append($no_border_checkbox).append('<span>No border</span>')
+  var $no_border_container = $('<div />', { class: 'mb-4' }).append($no_border_checkbox).append('<span>Sem borda</span>')
   $container.append($no_border_container)
 
-  $container.append('<h6>Sidebar Options</h6>')
+  $container.append('<h6>Opções de barra lateral</h6>')
 
   var $sidebar_collapsed_checkbox = $('<input />', {
     type: 'checkbox',
@@ -150,6 +154,7 @@
     $sidebar_collapsed_checkbox.prop('checked', false)
   })
 
+  
   var $sidebar_fixed_checkbox = $('<input />', {
     type: 'checkbox',
     value: 1,
@@ -164,8 +169,9 @@
       $(window).trigger('resize')
     }
   })
-  var $sidebar_fixed_container = $('<div />', { class: 'mb-1' }).append($sidebar_fixed_checkbox).append('<span>Fixed</span>')
-  $container.append($sidebar_fixed_container)
+  var $sidebar_fixed_container = $('<div />', { class: 'mb-1' }).append($sidebar_fixed_checkbox).append('<span>Fixo</span>')
+  //$container.append($sidebar_fixed_container)
+
 
   var $sidebar_mini_checkbox = $('<input />', {
     type: 'checkbox',
@@ -179,7 +185,7 @@
       $('body').removeClass('sidebar-mini')
     }
   })
-  var $sidebar_mini_container = $('<div />', { class: 'mb-1' }).append($sidebar_mini_checkbox).append('<span>Sidebar Mini</span>')
+  //var $sidebar_mini_container = $('<div />', { class: 'mb-1' }).append($sidebar_mini_checkbox).append('<span>Mini barra lateral</span>')
   $container.append($sidebar_mini_container)
 
   var $sidebar_mini_md_checkbox = $('<input />', {
@@ -194,7 +200,7 @@
       $('body').removeClass('sidebar-mini-md')
     }
   })
-  var $sidebar_mini_md_container = $('<div />', { class: 'mb-1' }).append($sidebar_mini_md_checkbox).append('<span>Sidebar Mini MD</span>')
+  //var $sidebar_mini_md_container = $('<div />', { class: 'mb-1' }).append($sidebar_mini_md_checkbox).append('<span>Mini barra lateral MD</span>')
   $container.append($sidebar_mini_md_container)
 
   var $sidebar_mini_xs_checkbox = $('<input />', {
@@ -209,7 +215,7 @@
       $('body').removeClass('sidebar-mini-xs')
     }
   })
-  var $sidebar_mini_xs_container = $('<div />', { class: 'mb-1' }).append($sidebar_mini_xs_checkbox).append('<span>Sidebar Mini XS</span>')
+  //var $sidebar_mini_xs_container = $('<div />', { class: 'mb-1' }).append($sidebar_mini_xs_checkbox).append('<span>Mini barra lateral XS</span>')
   $container.append($sidebar_mini_xs_container)
 
   var $flat_sidebar_checkbox = $('<input />', {
@@ -224,7 +230,7 @@
       $('.nav-sidebar').removeClass('nav-flat')
     }
   })
-  var $flat_sidebar_container = $('<div />', { class: 'mb-1' }).append($flat_sidebar_checkbox).append('<span>Nav Flat Style</span>')
+  //var $flat_sidebar_container = $('<div />', { class: 'mb-1' }).append($flat_sidebar_checkbox).append('<span>Estilo plano de navegação</span>')
   $container.append($flat_sidebar_container)
 
   var $legacy_sidebar_checkbox = $('<input />', {
@@ -239,7 +245,7 @@
       $('.nav-sidebar').removeClass('nav-legacy')
     }
   })
-  var $legacy_sidebar_container = $('<div />', { class: 'mb-1' }).append($legacy_sidebar_checkbox).append('<span>Nav Legacy Style</span>')
+  //var $legacy_sidebar_container = $('<div />', { class: 'mb-1' }).append($legacy_sidebar_checkbox).append('<span>Estilo legado de navegação</span>')
   $container.append($legacy_sidebar_container)
 
   var $compact_sidebar_checkbox = $('<input />', {
@@ -269,7 +275,7 @@
       $('.nav-sidebar').removeClass('nav-child-indent')
     }
   })
-  var $child_indent_sidebar_container = $('<div />', { class: 'mb-1' }).append($child_indent_sidebar_checkbox).append('<span>Nav Child Indent</span>')
+  //var $child_indent_sidebar_container = $('<div />', { class: 'mb-1' }).append($child_indent_sidebar_checkbox).append('<span>Nav Child Indent</span>')
   $container.append($child_indent_sidebar_container)
 
   var $child_hide_sidebar_checkbox = $('<input />', {
@@ -284,7 +290,7 @@
       $('.nav-sidebar').removeClass('nav-collapse-hide-child')
     }
   })
-  var $child_hide_sidebar_container = $('<div />', { class: 'mb-1' }).append($child_hide_sidebar_checkbox).append('<span>Nav Child Hide on Collapse</span>')
+  //var $child_hide_sidebar_container = $('<div />', { class: 'mb-1' }).append($child_hide_sidebar_checkbox).append('<span>Nav Child Hide on Collapse</span>')
   $container.append($child_hide_sidebar_container)
 
   var $no_expand_sidebar_checkbox = $('<input />', {
@@ -315,7 +321,7 @@
       $('body').removeClass('layout-footer-fixed')
     }
   })
-  var $footer_fixed_container = $('<div />', { class: 'mb-4' }).append($footer_fixed_checkbox).append('<span>Fixed</span>')
+  //var $footer_fixed_container = $('<div />', { class: 'mb-4' }).append($footer_fixed_checkbox).append('<span>Fixed</span>')
   $container.append($footer_fixed_container)
 
   $container.append('<h6>Small Text Options</h6>')
@@ -687,3 +693,4 @@
     $brand_variants.removeClass().addClass('custom-select mb-3 text-light border-0 ').addClass(active_brand_color)
   }
 })(jQuery)
+
